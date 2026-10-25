@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Aplicación IFIT en celular">
+  <rect width="640" height="400" fill="#17223b"/>
+  <!-- Celular -->
+  <rect x="250" y="40" width="140" height="300" rx="22" fill="#0b1220" stroke="#22304f" stroke-width="3"/>
+  <rect x="262" y="60" width="116" height="260" rx="8" fill="#111a2e"/>
+  <!-- Encabezado de la app -->
+  <rect x="274" y="74" width="60" height="8" rx="4" fill="#97a3bf" opacity="0.6"/>
+  <!-- Anillo de progreso -->
+  <circle cx="320" cy="170" r="40" fill="none" stroke="#22304f" stroke-width="10"/>
+  <circle cx="320" cy="170" r="40" fill="none" stroke="#f5a524" stroke-width="10" stroke-linecap="round" stroke-dasharray="190 252" transform="rotate(-90 320 170)"/>
+  <text x="320" y="176" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#e6ebf5">72%</text>
+  <!-- Tarjetas de actividad -->
+  <rect x="274" y="230" width="92" height="26" rx="6" fill="#17223b"/>
+  <rect x="274" y="264" width="92" height="26" rx="6" fill="#17223b"/>
+  <rect x="280" y="238" width="50" height="8" rx="4" fill="#2dd4bf"/>
+  <rect x="280" y="272" width="70" height="8" rx="4" fill="#2dd4bf" opacity="0.6"/>
+  <!-- Etiqueta -->
+  <text x="40" y="120" font-family="Arial" font-size="22" font-weight="bold" fill="#e6ebf5">IFIT</text>
+  <text x="40" y="146" font-family="Arial" font-size="14" fill="#97a3bf">Seguimiento de entrenamientos</text>
+</svg>
