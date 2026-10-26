@@ -75,9 +75,9 @@
   .more{margin-top:14px;font-size:12px;color:var(--text);opacity:.7}
 
   /* MODAL */
-  .modal{position:fixed;inset:0;background:rgba(4,6,9,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
-  .modal.open{display:flex}
-  .sheet{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;max-width:760px;width:100%;max-height:90vh;overflow:auto;position:relative}
+  .modal{position:fixed;inset:0;background:rgba(4,6,9,.82);backdrop-filter:blur(6px);display:flex;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal.open{opacity:1;visibility:visible}
+  .sheet{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;max-width:760px;width:100%;max-height:90vh;overflow:auto;position:relative;transform:translateY(24px) scale(.97);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
   .close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer;font-size:18px;z-index:2}
   .sheet .pad{padding:32px}
   .sheet h2{font-size:24px;margin:10px 0 12px}
@@ -117,6 +117,43 @@
 
   footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
 
+  /* ANIMACIONES */
+  @keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  @keyframes spacing{from{opacity:0;letter-spacing:.6em}to{opacity:1;letter-spacing:6px}}
+  @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+  @keyframes drip{from{transform:translateY(-100%)}to{transform:translateY(100%)}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(78,168,255,.5)}70%{box-shadow:0 0 0 10px rgba(78,168,255,0)}}
+  .progress{position:fixed;top:0;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;z-index:60}
+  header{transition:background .3s,box-shadow .3s}
+  header.scrolled{background:rgba(12,15,20,.92);box-shadow:0 8px 30px rgba(0,0,0,.35)}
+  nav ul a{position:relative;transition:color .25s}
+  nav ul a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--accent);transition:width .3s}
+  nav ul a:hover::after{width:100%}
+  .hero{overflow:hidden}
+  .hero::before{content:"";position:absolute;width:640px;height:640px;right:-160px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(78,168,255,.18),transparent 65%);animation:float 10s ease-in-out infinite;pointer-events:none}
+  .hero .eyebrow{animation:up .9s .1s cubic-bezier(.2,.7,.2,1) both}
+  .hero h1{animation:up .9s .2s cubic-bezier(.2,.7,.2,1) both}
+  .hero h1 span{animation:spacing 1.4s .7s cubic-bezier(.2,.7,.2,1) both}
+  .hero .lead{animation:up .9s .35s cubic-bezier(.2,.7,.2,1) both}
+  .hero .areas{animation:up .9s .5s cubic-bezier(.2,.7,.2,1) both}
+  .hero .btns{animation:up .9s .65s cubic-bezier(.2,.7,.2,1) both}
+  .scroll-hint{position:absolute;left:50%;bottom:28px;width:1px;height:48px;overflow:hidden;background:var(--line);z-index:1}
+  .scroll-hint::after{content:"";position:absolute;inset:0;background:var(--accent);animation:drip 2s ease-in-out infinite}
+  .btn{transition:all .25s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary:hover{box-shadow:0 10px 30px -10px rgba(78,168,255,.6)}
+  .job::before{box-shadow:0 0 0 0 rgba(78,168,255,.5);animation:pulse 2.4s infinite}
+  .card{transition:transform .35s,border-color .35s,box-shadow .35s;animation:up .8s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:var(--d,0s)}
+  .card:hover{transform:translateY(-6px);box-shadow:0 24px 50px -24px rgba(78,168,255,.35)}
+  .card .thumb img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+  .card:hover .thumb img{transform:scale(1.06)}
+  .card .more{transition:transform .3s,opacity .3s}
+  .card:hover .more{transform:translateX(6px);opacity:1}
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+  .reveal.in{opacity:1;transform:none}
+  .modal.open .sheet{transform:none}
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
   @media (max-width:800px){
     nav ul{display:none}
     .about,.grid2{grid-template-columns:1fr}
@@ -154,6 +191,7 @@
       <a class="btn" href="#contacto">Contactar</a>
     </div>
   </div>
+  <div class="scroll-hint"></div>
 </div>
 
 <!-- PERFIL -->
@@ -167,7 +205,7 @@
     </div>
     <div class="stats">
       <div class="stat"><b>Inglés B2</b><small>CEFR · British Council 2026</small></div>
-      <div class="stat"><b>4,000+</b><small>Evidencias evaluadas por semana con IA (UGEL Jauja)</small></div>
+      <div class="stat"><b data-n="4000" data-s="+">4,000+</b><small>Evidencias evaluadas por semana con IA (UGEL Jauja)</small></div>
       <div class="stat"><b>Python · SQL · IA</b><small>Herramientas principales</small></div>
     </div>
   </div>
@@ -336,6 +374,7 @@ PROYECTOS.forEach((p, i) => {
   const card = document.createElement("article");
   card.className = "card";
   card.tabIndex = 0;
+  card.style.setProperty("--d", (i * 0.08 + 0.2) + "s");
   card.innerHTML = `
     <div class="thumb"><img src="${p.img}" alt="${p.titulo}"></div>
     <div class="body">
@@ -378,6 +417,49 @@ function cerrar() { modal.classList.remove("open"); body.innerHTML = ""; }
 document.getElementById("close").onclick = cerrar;
 modal.addEventListener("click", e => { if (e.target === modal) cerrar(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+
+/* ---------- Animaciones: barra de progreso, cabecera, contadores y revelado ---------- */
+const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const header = document.querySelector("header");
+const barra = document.createElement("div");
+barra.className = "progress";
+document.body.prepend(barra);
+
+const alScroll = () => {
+  const h = document.documentElement;
+  barra.style.transform = `scaleX(${window.scrollY / ((h.scrollHeight - h.clientHeight) || 1)})`;
+  header.classList.toggle("scrolled", window.scrollY > 40);
+};
+window.addEventListener("scroll", alScroll, { passive: true });
+alScroll();
+
+const contar = el => {
+  const fin = +el.dataset.n, suf = el.dataset.s || "";
+  if (reducir) { el.textContent = fin.toLocaleString("es-PE") + suf; return; }
+  const t0 = performance.now();
+  const frame = t => {
+    const p = Math.min((t - t0) / 1400, 1);
+    el.textContent = Math.round(fin * (1 - Math.pow(1 - p, 3))).toLocaleString("es-PE") + suf;
+    if (p < 1) requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+};
+
+const revelables = document.querySelectorAll(".sec-title,.sec-sub,.about > div,.stat,.job,.box,.contact .wrap > *,.carousel-head,footer");
+revelables.forEach(el => {
+  el.classList.add("reveal");
+  const i = [...el.parentElement.children].indexOf(el);
+  el.style.setProperty("--d", (i % 4) * 0.1 + "s");
+});
+const observador = new IntersectionObserver((entradas, obs) => {
+  entradas.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add("in");
+    en.target.querySelectorAll("[data-n]").forEach(contar);
+    obs.unobserve(en.target);
+  });
+}, { threshold: 0.15 });
+revelables.forEach(el => observador.observe(el));
 
 document.getElementById("anio").textContent = new Date().getFullYear();
 </script>
