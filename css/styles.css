@@ -32,7 +32,7 @@
 
   /* Imagen de portada: cambia la ruta aquí para usar otra imagen.
      Ejemplo: url("../img/mi-portada.jpg") */
-  --portada: url("../img/portada.svg");
+  --portada: url("../img/portada.png");
 }
 
 
