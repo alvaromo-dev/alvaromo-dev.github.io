@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+  PORTAFOLIO - Álvaro Millán Orellana
+  ------------------------------------
+  Estructura del proyecto:
+    index.html          -> contenido y estructura de la página (este archivo)
+    css/styles.css      -> colores, tipografía, diseño de cada sección
+    js/main.js          -> comportamiento (menú móvil, año automático, animaciones)
+    img/                -> imágenes (fotos, capturas, ilustraciones SVG)
+
+  Para modificar:
+    - Colores y tipografía: css/styles.css, bloque :root (sección 1)
+    - Textos de una sección: busca el comentario <!-- SECCIÓN: ... --> aquí abajo
+    - Agregar un proyecto: copia un bloque <article class="card"> dentro de #proyectos
+    - Cambiar una imagen: reemplaza el archivo en img/ con el mismo nombre
+-->
+<html lang="es">
+<head>
+  <!-- Metadatos básicos: codificación, diseño adaptable y descripción para buscadores -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Álvaro Millán Orellana - Ingeniero Mecatrónico. Dirección de proyectos, tecnología minera, inteligencia artificial y automatización.">
+  <title>Álvaro Millán Orellana | Ingeniero Mecatrónico</title>
+
+  <!-- Tipografías de Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO Y NAVEGACIÓN -->
+  <header class="site-header">
+    <nav class="container nav">
+      <a class="brand" href="#inicio">Álvaro<span>.</span>Millán</a>
+
+      <!-- Botón de menú para celulares (lo controla js/main.js) -->
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="#sobre-mi">Perfil</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#competencias">Competencias</a></li>
+        <li><a href="#formacion">Formación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- PORTADA: imagen de fondo en la parte superior.
+         Para cambiarla, reemplaza img/portada.svg por tu imagen (por ejemplo img/portada.jpg)
+         y actualiza la ruta en la variable --portada de css/styles.css -->
+    <div class="portada" role="img" aria-label="Imagen de portada"></div>
+
+    <!-- SECCIÓN: HERO (presentación principal) -->
+    <div class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <span class="tag">Minería · Tecnología · Automatización</span>
+          <h1>Álvaro Millán Orellana</h1>
+          <p class="role">Ingeniero Mecatrónico | Dirección de Proyectos, Minería e Inteligencia Artificial</p>
+          <p class="lead">
+            Convierto procesos complejos en sistemas ordenados, medibles y fáciles de gestionar.
+          </p>
+          <div class="buttons">
+            <a class="btn primary" href="#proyectos">Ver proyectos</a>
+            <a class="btn" href="mailto:alvaro.millan.369@gmail.com">Contactar</a>
+          </div>
+        </div>
+
+        <!-- Imagen principal del hero. Cambia img/hero-mineria.svg por tu archivo -->
+        <div class="hero-image">
+          <img src="img/hero-mineria.svg" alt="Ilustración de operación minera con automatización">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: PERFIL PROFESIONAL -->
+    <section id="sobre-mi">
+      <div class="container about-grid">
+        <div class="about-text">
+          <h2 class="section-title">Perfil profesional</h2>
+          <p>
+            Tengo formación en ingeniería mecatrónica y experiencia en el sector minero, donde combino el control de
+            documentación técnica, la gestión de proyectos y el desarrollo de herramientas digitales.
+          </p>
+          <p>
+            Desarrollo soluciones a medida en Python y entornos Microsoft 365 para automatizar flujos de trabajo,
+            reducir errores manuales y mejorar la trazabilidad de la información en obra y en oficina técnica.
+          </p>
+          <p>
+            Me interesa aplicar la inteligencia artificial y la automatización a problemas reales de la industria,
+            con un enfoque práctico: primero entender el proceso, después diseñar la solución.
+          </p>
+        </div>
+
+        <!-- Lista de áreas de enfoque. Para agregar una, añade un <li> -->
+        <aside class="focus-list">
+          <h3>Áreas de enfoque</h3>
+          <ul>
+            <li>Dirección de proyectos mineros</li>
+            <li>Control documentario y trazabilidad</li>
+            <li>Automatización inteligente</li>
+            <li>Desarrollo de software</li>
+            <li>Inteligencia artificial aplicada</li>
+            <li>Planificación estratégica</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: PROYECTOS DESTACADOS -->
+    <!-- Para agregar un proyecto: copia un <article class="card"> completo y cambia su contenido -->
+    <section id="proyectos">
+      <div class="container">
+        <h2 class="section-title">Proyectos destacados</h2>
+        <p class="section-sub">Soluciones de software y automatización desarrolladas para distintos sectores.</p>
+
+        <div class="projects">
+
+          <!-- PROYECTO 1: App IFIT -->
+          <article class="card">
+            <div class="card-image">
+              <img src="img/proyecto-ifit.svg" alt="Vista de la aplicación IFIT en un celular Android">
+            </div>
+            <div class="card-body">
+              <span class="category">Desarrollo móvil</span>
+              <h3>Aplicación fitness "IFIT" para Android</h3>
+              <div class="stack">
+                <span>Android</span><span>Seguimiento de salud</span><span>Diseño de app</span>
+              </div>
+              <p>
+                Aplicación móvil para Android orientada al seguimiento de entrenamientos y hábitos físicos,
+                con una interfaz simple pensada para el uso diario.
+              </p>
+              <div class="result"><strong>Enfoque:</strong> experiencia de usuario clara y registro de progreso.</div>
+            </div>
+          </article>
+
+          <!-- PROYECTO 2: Evaluador con IA -->
+          <article class="card">
+            <div class="card-image">
+              <img src="img/proyecto-ugel.svg" alt="Panel de evaluación matemática con inteligencia artificial">
+            </div>
+            <div class="card-body">
+              <span class="category">Inteligencia artificial · Educación</span>
+              <h3>Evaluador matemático con IA – UGEL Jauja</h3>
+              <div class="stack">
+                <span>IA</span><span>Evaluación educativa</span><span>Automatización</span>
+              </div>
+              <p>
+                Herramienta de evaluación de competencias matemáticas apoyada en inteligencia artificial,
+                desarrollada para una institución educativa pública de la región Junín.
+              </p>
+              <div class="result"><strong>Impacto:</strong> evaluación más ágil y consistente para docentes.</div>
+            </div>
+          </article>
+
+          <!-- PROYECTO 3: Control documentario -->
+          <article class="card">
+            <div class="card-image">
+              <img src="img/proyecto-documentos.svg" alt="Flujo de control documentario en un panel digital">
+            </div>
+            <div class="card-body">
+              <span class="category">Minería · Control documentario</span>
+              <h3>Interfaz de control documentario</h3>
+              <div class="stack">
+                <span>Python</span><span>Control documentario</span><span>Trazabilidad</span>
+              </div>
+              <p>
+                Interfaz para el registro, seguimiento y trazabilidad de documentos técnicos en proyectos de
+                construcción y minería, integrada a los procesos de administración de contratos.
+              </p>
+              <div class="result"><strong>Impacto:</strong> menos errores manuales y control centralizado de la documentación.</div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: COMPETENCIAS -->
+    <section id="competencias">
+      <div class="container">
+        <h2 class="section-title">Competencias</h2>
+        <p class="section-sub">Lo que aplico en cada proyecto, desde la idea hasta la operación.</p>
+
+        <!-- Cada <div class="skill"> es una tarjeta de competencia -->
+        <div class="skills">
+          <div class="skill">
+            <h3>Dirección de proyectos</h3>
+            <p>Planificación, seguimiento de cronograma y costos, gestión de riesgos y coordinación de equipos.</p>
+          </div>
+          <div class="skill">
+            <h3>Minería y construcción</h3>
+            <p>Control documentario, administración de contratos y trabajo con documentación técnica de obra.</p>
+          </div>
+          <div class="skill">
+            <h3>Automatización</h3>
+            <p>Sistemas de control, automatización de procesos y herramientas que reducen tareas manuales.</p>
+          </div>
+          <div class="skill">
+            <h3>Software e IA</h3>
+            <p>Python, desarrollo de aplicaciones, Microsoft 365 (SharePoint, Power Apps, Power Automate) e inteligencia artificial aplicada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: FORMACIÓN -->
+    <!-- Para agregar un título, copia un bloque <div class="item"> -->
+    <section id="formacion">
+      <div class="container">
+        <h2 class="section-title">Formación</h2>
+        <p class="section-sub">Base académica y de especialización.</p>
+
+        <div class="timeline">
+          <div class="item">
+            <h3>Ingeniería Mecatrónica</h3>
+            <p class="meta">Formación universitaria</p>
+            <p>Sistemas mecánicos, electrónicos y de control integrados, con base en automatización e ingeniería de software.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: CONTACTO -->
+    <section id="contacto" class="contact">
+      <div class="container">
+        <h2 class="section-title">Hablemos</h2>
+        <p>
+          Si buscas un profesional para dirección de proyectos, automatización o desarrollo de herramientas digitales
+          para la industria minera, escríbeme.
+        </p>
+        <div class="contact-links">
+          <!-- Correo: cambia la dirección aquí si necesitas otra -->
+          <a class="btn primary" href="mailto:alvaro.millan.369@gmail.com">alvaro.millan.369@gmail.com</a>
+          <a class="btn" href="https://github.com/alvaromo-dev" target="_blank" rel="noopener">GitHub</a>
+          <!-- LinkedIn: reemplaza el # por la URL de tu perfil -->
+          <a class="btn" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <div class="container">
+      <p>© <span id="anio"></span> Álvaro Millán Orellana · Ingeniero Mecatrónico</p>
+    </div>
+  </footer>
+
+  <!-- Comportamiento de la página (menú móvil, año automático) -->
+  <script src="js/main.js"></script>
+</body>
+</html>
