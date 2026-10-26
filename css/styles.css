@@ -119,7 +119,19 @@ section + section { border-top: 1px solid var(--border); }
   font-weight: 700;
   color: var(--text);
 }
-.brand span { color: var(--accent); }
+.brand .dot { color: var(--accent); }
+
+/* Logo en el encabezado: ajusta "height" para cambiar su tamaño */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.logo {
+  height: 40px;
+  width: auto;
+}
+.brand-name { font-size: 1.05rem; }
 
 .nav-links {
   display: flex;
