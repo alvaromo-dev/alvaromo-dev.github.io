@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-label="Ilustración de un tajo minero con camión de acarreo">
+  <defs>
+    <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c0f14"/>
+      <stop offset="1" stop-color="#141c28"/>
+    </linearGradient>
+    <linearGradient id="tajo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c2735"/>
+      <stop offset="1" stop-color="#090c11"/>
+    </linearGradient>
+    <radialGradient id="luz" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4ea8ff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#4ea8ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="420" fill="url(#cielo)"/>
+  <circle cx="600" cy="120" r="200" fill="url(#luz)"/>
+
+  <!-- Bancos del tajo -->
+  <path d="M0 150 L170 150 L220 200 L380 200 L430 250 L590 250 L640 300 L800 300 L800 420 L0 420 Z" fill="url(#tajo)" stroke="#2b3a4f" stroke-width="1.2"/>
+  <g fill="none" stroke="#4ea8ff" stroke-opacity=".35" stroke-width="1">
+    <path d="M170 150 L220 200 L380 200 L430 250 L590 250 L640 300"/>
+  </g>
+  <!-- Curvas de nivel suaves -->
+  <g fill="none" stroke="#8a95a6" stroke-opacity=".12" stroke-width="1">
+    <path d="M0 60 Q200 40 400 70 T800 60"/>
+    <path d="M0 95 Q220 75 430 105 T800 100"/>
+  </g>
+
+  <!-- Camino de acarreo -->
+  <path d="M120 420 L260 420 L300 330 L440 330 L480 370 L640 370" fill="none" stroke="#8a95a6" stroke-width="2" stroke-dasharray="8 8" stroke-opacity=".5"/>
+
+  <!-- Camión de acarreo -->
+  <g transform="translate(432 167) scale(1.6)">
+    <polygon points="0,0 72,0 72,28 0,28" fill="#e8ecf2"/>
+    <rect x="0" y="28" width="104" height="10" rx="2" fill="#4ea8ff"/>
+    <rect x="72" y="10" width="30" height="20" rx="3" fill="#4ea8ff"/>
+    <rect x="80" y="14" width="14" height="8" rx="1" fill="#0c0f14"/>
+    <rect x="98" y="16" width="8" height="6" rx="1" fill="#e8ecf2"/>
+    <circle cx="18" cy="44" r="8" fill="#090c11" stroke="#8a95a6" stroke-width="2"/>
+    <circle cx="58" cy="44" r="8" fill="#090c11" stroke="#8a95a6" stroke-width="2"/>
+    <circle cx="90" cy="44" r="8" fill="#090c11" stroke="#8a95a6" stroke-width="2"/>
+  </g>
+
+  <!-- Marcadores de medición -->
+  <g fill="#4ea8ff" font-family="Inter, sans-serif" font-size="12">
+    <line x1="700" y1="150" x2="700" y2="300" stroke="#4ea8ff" stroke-opacity=".5"/>
+    <line x1="694" y1="150" x2="706" y2="150" stroke="#4ea8ff"/>
+    <line x1="694" y1="300" x2="706" y2="300" stroke="#4ea8ff"/>
+    <text x="716" y="228" fill-opacity=".8">banco</text>
+  </g>
+</svg>

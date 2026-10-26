@@ -162,11 +162,17 @@
   .pillar{border-top:1px solid var(--accent);padding-top:18px}
   .pillar h3{font-size:16px;margin-bottom:8px}
   .pillar p{color:var(--muted);font-size:13.5px}
+  .mineria{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+  .mineria-lead{color:var(--muted);margin:18px 0 24px}
+  .dominios{list-style:none;display:grid;gap:10px}
+  .dominios li{position:relative;padding:12px 16px 12px 36px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);font-size:13.5px}
+  .dominios li::before{content:"";position:absolute;left:16px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--accent)}
+  .mineria-img{width:100%;border-radius:var(--radius);border:1px solid var(--line)}
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 
   @media (max-width:800px){
     nav ul{display:none}
-    .about,.grid2,.pillars{grid-template-columns:1fr}
+    .about,.grid2,.pillars,.mineria{grid-template-columns:1fr}
     .card{flex-basis:82%}
     .hero::after{background:linear-gradient(180deg,rgba(12,15,20,.7),rgba(12,15,20,.96))}
   }
@@ -190,11 +196,11 @@
 <!-- HERO -->
 <div class="hero" id="inicio">
   <div class="wrap">
-    <div class="eyebrow">Project Manager · Ingeniero Mecatrónico</div>
+    <div class="eyebrow">Project Manager · Minería</div>
     <h1>Álvaro<br>Millán<span>ORELLANA</span></h1>
     <p class="lead">Dirijo proyectos de planeamiento y control en minería y construcción. Convierto la información de obra en herramientas digitales e inteligencia artificial para decidir mejor.</p>
     <div class="areas">
-      <span>Project Management</span><span>Minería</span><span>Planeamiento</span><span>Inteligencia Artificial</span><span>Tecnología</span>
+      <span>Minería</span><span>Project Management</span><span>Planeamiento</span><span>Inteligencia Artificial</span><span>Tecnología</span>
     </div>
     <div class="btns">
       <a class="btn primary" href="#proyectos">Ver proyectos</a>
@@ -244,6 +250,26 @@
     <div class="pillar"><h3>Entender antes de construir</h3><p>Mapeo el proceso, los actores y los riesgos antes de proponer una solución.</p></div>
     <div class="pillar"><h3>Medir para decidir</h3><p>Cronograma, costos y avance en indicadores claros que la gerencia lee en minutos.</p></div>
     <div class="pillar"><h3>Automatizar lo repetitivo</h3><p>Python, SQL y Microsoft 365 para reducir errores manuales y ganar trazabilidad.</p></div>
+  </div>
+</section>
+
+<!-- MINERÍA -->
+<section id="mineria" style="padding-top:0">
+  <div class="wrap mineria">
+    <div>
+      <span class="tag">Minería y construcción</span>
+      <h2 class="sec-title" style="margin-top:10px">Del tajo a la oficina técnica</h2>
+      <p class="mineria-lead">Trabajo en la capa que sostiene un proyecto minero: el cronograma que se cumple, la documentación que respalda cada decisión y los cambios de contrato que afectan costo y plazo.</p>
+      <ul class="dominios">
+        <li>Planeamiento y control de cronograma y costos</li>
+        <li>Control documentario: transmittals, revisiones y trazabilidad</li>
+        <li>Administración de contratos: control de cambios (IO y OC)</li>
+        <li>Análisis de impacto costo-plazo y solicitudes formales (RFI)</li>
+        <li>Coordinación de interferencias en campo</li>
+        <li>Cierre de proyectos y entrega de documentación</li>
+      </ul>
+    </div>
+    <img class="mineria-img" src="img/mineria-tajo.svg" alt="Ilustración de un tajo minero con camión de acarreo">
   </div>
 </section>
 
@@ -464,7 +490,7 @@ const contar = el => {
   requestAnimationFrame(frame);
 };
 
-const revelables = document.querySelectorAll(".sec-title,.sec-sub,.about > div,.stat,.job,.box,.pillar,.contact .wrap > *,.carousel-head,footer");
+const revelables = document.querySelectorAll(".sec-title,.sec-sub,.about > div,.stat,.job,.box,.pillar,.dominios li,.mineria-img,.contact .wrap > *,.carousel-head,footer");
 revelables.forEach(el => {
   el.classList.add("reveal");
   const i = [...el.parentElement.children].indexOf(el);
