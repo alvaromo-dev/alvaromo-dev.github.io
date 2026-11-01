@@ -8,7 +8,7 @@
 <link rel="icon" href="img/logo.svg">
 <meta property="og:title" content="Álvaro Millán Orellana | Project Manager">
 <meta property="og:description" content="Dirección de proyectos, planeamiento minero, inteligencia artificial y tecnología.">
-<meta property="og:image" content="img/tajo-hero.webp">
+<meta property="og:image" content="img/portada.webp">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,12 +53,11 @@ nav{display:flex;align-items:center;justify-content:space-between;height:72px;pa
 
 /* ---------- HERO ---------- */
 .hero{position:relative;min-height:100vh;padding:112px 0 44px;display:flex;flex-direction:column;justify-content:space-between;background:#060a11;color:#eef3fb;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url("img/tajo-hero.webp") 60% center/cover;opacity:.8}
+.hero-bg{position:absolute;inset:0;background:url("img/portada.webp") right center/cover;opacity:.9}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#060a11 18%,rgba(6,10,17,.55) 55%,rgba(6,10,17,.2) 100%),linear-gradient(0deg,#060a11 0%,transparent 40%)}
-.hero-foto{position:absolute;right:0;top:0;height:100%;width:46%;object-fit:cover;object-position:top center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%);mask-image:linear-gradient(90deg,transparent,#000 35%)}
 .hero .wrap{position:relative;z-index:1;width:100%}
 .eyebrow{font-size:13px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;font-weight:600}
-.hero h1{font-size:clamp(44px,6.5vw,84px);line-height:1;margin:14px 0 6px;font-weight:800}
+.hero h1{font-size:clamp(34px,4.6vw,58px);line-height:1;margin:14px 0 6px;font-weight:800}
 .hero h1 span{display:block;font-family:Montserrat;font-weight:300;color:#c4cfdf;font-size:.8em}
 .tagline{font-size:clamp(18px,2.2vw,24px);font-style:italic;margin-top:20px;color:#dfe7f3}
 .tagline b{color:var(--accent);font-style:normal;font-weight:600}
@@ -200,7 +199,6 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   .links{display:none}
   .hero-bottom{grid-template-columns:1fr}
   .frase{text-align:left;padding:0;min-width:0}
-  .hero-foto{width:100%;opacity:.3}
   .about,.grid2,.pillars,.mineria{grid-template-columns:1fr}
   .card,.cert{flex-basis:80%}
 }
@@ -257,7 +255,6 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 <!-- PORTADA -->
 <div class="hero" id="inicio">
   <div class="hero-bg"></div>
-  <img class="hero-foto" src="img/foto-alvaro.webp" alt="Álvaro Millán Orellana">
 
   <div class="wrap">
     <p class="eyebrow">Project Manager · Minería</p>
@@ -315,7 +312,6 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     </div>
 
     <div class="carrusel">
-      <button class="flechas-btn" id="c-prev" aria-label="Anterior" style="display:none"></button>
       <div class="track" id="cursos-track">
         <article class="cert">
           <img src="img/cert-ia.webp" alt="Inteligencia Artificial y ML">
