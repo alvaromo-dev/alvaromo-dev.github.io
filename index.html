@@ -14,141 +14,211 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@300;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* =====================================================================
+   1. COLORES  [EDITAR] cambia estos valores para ajustar la paleta.
+   El modo oscuro es el predeterminado; el claro se activa con el botón.
+   ===================================================================== */
 :root{
-  --bg:#070b12; --bg-2:#0f1724; --line:#1c2839;
-  --text:#e8edf5; --muted:#8fa0b8; --accent:#1e90ff; --accent-2:#7b3fe4;
-  --radius:16px;
+  --bg:#050608;          /* fondo general (oscuro)                    */
+  --bg-2:#0c0f14;        /* fondo de tarjetas (oscuro)                */
+  --line:rgba(255,255,255,.1); /* bordes                              */
+  --text:#ffffff;        /* texto principal                           */
+  --muted:#9aa4b2;       /* texto secundario                          */
+  --accent:#1e8bff;      /* color de acento (azul)                    */
+  --accent-2:#5b2fd6;    /* acento secundario (especializaciones)     */
+  --radius:18px;         /* redondeo de tarjetas                      */
 }
 [data-theme="light"]{
-  --bg:#f3f6fb; --bg-2:#ffffff; --line:#d7e0ec;
-  --text:#0d1b2e; --muted:#5a6a80; --accent:#0a6fd6; --accent-2:#6a38d4;
+  --bg:#ffffff; --bg-2:#f4f6f9; --line:#e2e6ec;
+  --text:#0a0a0a; --muted:#5b6472; --accent:#0a6fd6; --accent-2:#4a22b8;
 }
+
+/* =====================================================================
+   2. BASE Y UTILIDADES
+   ===================================================================== */
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;font-size:15px;transition:background .4s,color .4s}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;font-size:15px;transition:background .5s,color .5s;overflow-x:hidden}
 h1,h2,h3,h4{font-family:Montserrat,sans-serif;font-weight:700}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 .i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:8px 14px;border-radius:8px;z-index:200}
+.skip:focus{left:12px}
 
-/* ---------- NAV ---------- */
-header{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(7,11,18,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:background .4s}
-[data-theme="light"] header{background:rgba(255,255,255,.85)}
-nav{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 clamp(20px,4vw,56px)}
-.brand{display:flex;align-items:center;gap:14px;font-family:Montserrat;font-weight:700;font-size:14px;letter-spacing:.5px}
+/* =====================================================================
+   3. ANIMACIONES  [EDITAR] duraciones o efectos si quieres más/menos movimiento
+   ===================================================================== */
+@keyframes drop{from{opacity:0;transform:translate(-50%,-30px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes left{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-40px)}}
+@keyframes shine{to{background-position:200% center}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(30,139,255,.55)}70%{box-shadow:0 0 0 16px rgba(30,139,255,0)}100%{box-shadow:0 0 0 0 rgba(30,139,255,0)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:translate(-50%,18px) scale(.9)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes ringpulse{0%{box-shadow:0 0 0 0 rgba(30,139,255,.5)}70%{box-shadow:0 0 0 14px rgba(30,139,255,0)}100%{box-shadow:0 0 0 0 rgba(30,139,255,0)}}
+
+/* Elementos que se revelan al hacer scroll (la clase .in la añade el JS) */
+.reveal{animation:up .8s var(--d,0s) cubic-bezier(.2,.7,.2,1) backwards;animation-play-state:paused}
+.reveal.in{animation-play-state:running}
+
+/* =====================================================================
+   4. HEADER / NAVEGACIÓN  (siempre blanco)
+   [EDITAR] para agregar una sección al menú, copia un <li> en el <ul class="links">
+   ===================================================================== */
+.progreso{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:60}
+header{position:fixed;top:12px;left:50%;transform:translateX(-50%);width:min(1320px,calc(100% - 28px));z-index:50;background:#fff;color:#0a0a0a;border-radius:18px;box-shadow:0 14px 40px -14px rgba(0,0,0,.55);animation:drop .9s cubic-bezier(.2,.7,.2,1) both;transition:box-shadow .3s}
+header.compacta{box-shadow:0 8px 24px -10px rgba(0,0,0,.6)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 22px;transition:height .3s}
+header.compacta nav{height:56px}
+.brand{display:flex;align-items:center;gap:12px;font-family:Montserrat;font-weight:700;font-size:14px;letter-spacing:.4px;color:#0a0a0a}
 .brand img{height:34px;width:auto}
-.brand .sep{width:1px;height:26px;background:var(--line)}
-.links{display:flex;gap:28px;list-style:none}
-.links a{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted);padding:24px 0;position:relative;transition:color .25s}
-.links a:hover{color:var(--text)}
-.links a.active{color:var(--accent)}
-.links a.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent)}
+.brand .sep{width:1px;height:26px;background:#d5dbe3}
+.links{display:flex;gap:26px;list-style:none}
+.links a{display:flex;align-items:center;gap:7px;font-size:13.5px;color:#5b6472;padding:20px 0;position:relative;transition:color .25s}
+.links a:hover{color:#0a0a0a}
+.links a.active{color:#0a6fd6;font-weight:600}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#0a6fd6;transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.links a.active::after,.links a:hover::after{transform:scaleX(1)}
 .links .i{width:17px;height:17px}
-.theme{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.25s}
-.theme:hover{border-color:var(--accent);color:var(--accent)}
+.theme{width:42px;height:42px;border-radius:50%;border:1px solid #d5dbe3;background:#fff;color:#0a0a0a;cursor:pointer;display:grid;place-items:center;transition:.3s}
+.theme:hover{transform:rotate(20deg);border-color:#0a6fd6;color:#0a6fd6}
 .ico-moon{display:none}
 [data-theme="light"] .ico-moon{display:block}
 [data-theme="light"] .ico-sun{display:none}
 
-/* ---------- HERO ---------- */
-.hero{position:relative;min-height:100vh;padding:112px 0 44px;display:flex;flex-direction:column;justify-content:space-between;background:#060a11;color:#eef3fb;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url("img/portada.webp") right center/cover;opacity:.9}
-.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#060a11 18%,rgba(6,10,17,.55) 55%,rgba(6,10,17,.2) 100%),linear-gradient(0deg,#060a11 0%,transparent 40%)}
+/* =====================================================================
+   5. PORTADA (siempre oscura)
+   [EDITAR] imagen de fondo: cambia "img/portada.webp" en .hero-bg
+   ===================================================================== */
+.hero{position:relative;min-height:100vh;padding:132px 0 56px;display:flex;flex-direction:column;justify-content:space-between;background:#000;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url("img/portada.webp") 75% center/cover;animation:zoom 24s ease-out both}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000 14%,rgba(0,0,0,.6) 50%,rgba(0,0,0,.12) 100%),linear-gradient(0deg,#000 0%,transparent 45%)}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;animation:float 14s ease-in-out infinite;z-index:0}
+.glow.g1{width:420px;height:420px;background:#1e8bff;left:-140px;top:18%}
+.glow.g2{width:340px;height:340px;background:#5b2fd6;right:6%;bottom:8%;animation-delay:-6s}
 .hero .wrap{position:relative;z-index:1;width:100%}
-.eyebrow{font-size:13px;letter-spacing:4px;color:var(--accent);text-transform:uppercase;font-weight:600}
-.hero h1{font-size:clamp(34px,4.6vw,58px);line-height:1;margin:14px 0 6px;font-weight:800}
-.hero h1 span{display:block;font-family:Montserrat;font-weight:300;color:#c4cfdf;font-size:.8em}
-.tagline{font-size:clamp(18px,2.2vw,24px);font-style:italic;margin-top:20px;color:#dfe7f3}
-.tagline b{color:var(--accent);font-style:normal;font-weight:600}
-.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.pill{display:flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid rgba(120,160,220,.25);border-radius:99px;background:rgba(10,18,30,.6);font-size:13px;color:#dbe5f3;backdrop-filter:blur(6px)}
-.pill .i{color:var(--accent);width:18px;height:18px}
-.btns{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 26px;border-radius:99px;border:1px solid rgba(160,190,230,.35);font-size:14px;font-weight:500;transition:.25s;color:#eef3fb;background:transparent}
+.eyebrow{font-size:13px;letter-spacing:4px;color:#1e8bff;text-transform:uppercase;font-weight:600;animation:up .9s .2s both}
+.hero h1{margin-top:16px;line-height:1}
+.hero h1 .l1{display:block;font-size:clamp(40px,5.4vw,70px);font-weight:800;animation:left 1s .35s both}
+.hero h1 .l2{display:block;font-size:clamp(30px,4vw,52px);font-weight:300;color:#d6dde8;margin-top:4px;animation:up 1s .5s both}
+.bar{display:block;width:110px;height:4px;border-radius:4px;background:#1e8bff;margin-top:18px;transform-origin:left;animation:grow .9s .8s both}
+.tagline{font-size:clamp(17px,2vw,22px);font-style:italic;margin-top:20px;color:#e6ecf5;animation:up .9s .9s both}
+.tagline b{font-style:normal;font-weight:600;background:linear-gradient(90deg,#1e8bff,#9fd3ff,#1e8bff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 3.5s linear infinite}
+.pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+/* [EDITAR] las etiquetas (pills) se configuran en CONFIG.pills */
+.pill{display:flex;align-items:center;gap:9px;padding:10px 18px;border:1px solid rgba(255,255,255,.22);border-radius:99px;background:rgba(0,0,0,.45);font-size:13px;color:#fff;backdrop-filter:blur(8px);opacity:0;animation:up .7s both;transition:.3s}
+.pill:hover{border-color:#1e8bff;background:rgba(30,139,255,.15);transform:translateY(-3px)}
+.pill .i{color:#1e8bff;width:18px;height:18px}
+.btns{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;animation:up .9s 1.4s both}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:99px;border:1px solid rgba(255,255,255,.35);font-size:14px;font-weight:500;transition:.3s;color:#fff;background:transparent}
 .btn .i{width:18px;height:18px}
-.btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
-.btn.primary{background:linear-gradient(135deg,#2aa6ff,#1275e0);border-color:transparent;color:#fff;box-shadow:0 10px 30px -10px rgba(30,144,255,.7)}
-.btn.primary:hover{color:#fff}
+.btn::before{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover::before{left:125%}
+.btn:hover{border-color:#1e8bff;color:#1e8bff;transform:translateY(-2px)}
+.btn.primary{background:#1e8bff;border-color:#1e8bff;color:#fff;animation:pulse 2.4s infinite;box-shadow:0 12px 30px -12px rgba(30,139,255,.8)}
+.btn.primary:hover{background:#0a6fd6;border-color:#0a6fd6;color:#fff}
 
-.hero-bottom{display:grid;grid-template-columns:1fr 1.25fr auto;gap:20px;margin-top:50px;align-items:stretch}
-.panel{background:rgba(10,16,26,.72);border:1px solid rgba(120,160,220,.2);border-radius:var(--radius);padding:22px 24px;backdrop-filter:blur(10px)}
-.panel h3{font-size:15px;display:flex;align-items:center;gap:10px;margin-bottom:18px;color:#fff}
-.panel h3 .i{color:var(--accent)}
-.logos{display:flex;align-items:center;justify-content:space-around;gap:16px}
-.logos img{height:44px;width:auto;object-fit:contain}
-.logos .sep{width:1px;height:50px;background:rgba(160,190,230,.2)}
-.timeline{position:relative;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:12px;color:#aab8cc}
-.timeline::before{content:"";position:absolute;left:12%;right:12%;top:21px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.step .ico{width:42px;height:42px;margin:0 auto 10px;border-radius:50%;background:#0b1320;border:1px solid rgba(120,160,220,.3);display:grid;place-items:center;position:relative;color:var(--accent)}
-.step .ico .i{width:20px;height:20px}
-.step b{display:block;color:#fff;font-size:13px;font-weight:600;font-family:Montserrat}
-.step small{display:block;line-height:1.35}
-.frase{font-family:Caveat,cursive;font-size:clamp(28px,3vw,40px);line-height:1.05;text-align:right;color:#eef3fb;align-self:center;padding-right:12px;min-width:220px}
-.frase span{display:block;color:var(--accent)}
+/* Panel de experiencia (logos) y línea de tiempo académica */
+.hero-bottom{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:24px;align-items:end;margin-top:60px}
+.exp{background:#fff;color:#0a0a0a;border-radius:var(--radius);padding:22px 26px;box-shadow:0 24px 60px -20px rgba(0,0,0,.6);animation:up .9s 1.6s both}
+.exp h3{font-size:15px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.exp h3 .i{color:#0a6fd6}
+.logos{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 20px}
+.logos img{height:34px;width:auto;object-fit:contain;transition:transform .35s}
+.logos img:hover{transform:scale(1.08)}
+.logos .sep{width:1px;height:36px;background:#e2e6ec}
 
-/* ---------- CERTIFICACIONES ---------- */
-.cursos{padding:70px 0 40px}
+/* [EDITAR] la línea de tiempo se configura en CONFIG.recorrido. La altura fija (290px) debe ser la misma en .tl y en el viewBox del SVG */
+.tl{position:relative;height:290px}
+.tl svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tl .line{fill:none;stroke:#1e8bff;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.6s 1.8s ease forwards;filter:drop-shadow(0 0 6px rgba(30,139,255,.8))}
+.node{position:absolute;left:var(--x);top:var(--y);transform:translateX(-50%);width:160px;text-align:center;color:#fff;opacity:0;animation:pop .7s both;animation-delay:var(--d)}
+.node .ico{width:58px;height:58px;margin:0 auto 10px;border-radius:50%;background:rgba(5,8,14,.75);border:1px solid rgba(30,139,255,.6);display:grid;place-items:center;color:#fff;animation:ringpulse 2.8s infinite;animation-delay:calc(var(--d) + 1.2s)}
+.node .ico .i{width:24px;height:24px}
+.node b{display:block;font-family:Montserrat;font-size:13px;font-weight:600;line-height:1.25}
+.node small{display:block;color:#c3ccd9;font-size:12px;line-height:1.3}
+
+/* =====================================================================
+   6. CERTIFICACIONES
+   [EDITAR] las tarjetas se configuran en CONFIG.certificaciones
+   ===================================================================== */
+.cursos{padding:80px 0 40px;background:var(--bg)}
 .head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:26px;flex-wrap:wrap}
 .head-row h2{font-size:22px;display:flex;gap:12px;align-items:center}
 .head-row h2 .i{color:var(--accent)}
 .sub{color:var(--muted);font-size:14px;margin-top:4px}
-.ghost{border:1px solid var(--line);padding:10px 18px;border-radius:99px;font-size:13px;color:var(--text);display:inline-flex;gap:8px;align-items:center;transition:.25s}
+.ghost{border:1px solid var(--line);padding:10px 18px;border-radius:99px;font-size:13px;color:var(--text);display:inline-flex;gap:8px;align-items:center;transition:.3s}
 .ghost:hover{border-color:var(--accent);color:var(--accent)}
 .ghost .i{width:16px;height:16px}
-.carrusel{display:flex;align-items:center;gap:16px}
-.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 18px;scrollbar-width:none;flex:1}
+.acciones{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:none;flex:1}
 .track::-webkit-scrollbar{display:none}
-.cert{flex:0 0 280px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative;transition:.3s}
-.cert:hover{transform:translateY(-4px);border-color:var(--accent)}
-.cert img{width:100%;height:150px;object-fit:cover}
+.cert,.card{transition:opacity .8s var(--d,0s),transform .35s,border-color .35s,box-shadow .35s}
+.cert{flex:0 0 280px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative}
+.cert:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(30,139,255,.45)}
+.cert img{width:100%;height:150px;object-fit:cover;transition:transform .7s}
+.cert:hover img{transform:scale(1.07)}
 .cert .badge{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;background:var(--accent);color:#fff;padding:4px 12px;border-radius:99px}
 .cert .badge.esp{background:var(--accent-2)}
 .cert .info{padding:16px 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
 .cert h4{font-size:14.5px;margin-bottom:4px}
 .cert small{color:var(--muted);font-size:12px}
-.cert .go{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0}
+.cert .go{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0;transition:.3s}
+.cert:hover .go{background:var(--accent);border-color:var(--accent);color:#fff}
 .cert .go .i{width:16px;height:16px}
 .flechas{display:flex;gap:8px}
-.flechas button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.25s}
-.flechas button:hover{border-color:var(--accent);color:var(--accent)}
+.flechas button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.3s}
+.flechas button:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.08)}
 .flechas .i{width:18px;height:18px}
 
-/* ---------- SECCIONES GENERALES ---------- */
-section{padding:96px 0}
-.sec-title{font-size:26px;margin-bottom:6px}
+/* =====================================================================
+   7. SECCIONES GENERALES
+   ===================================================================== */
+section{padding:88px 0;background:var(--bg)}
+.sec-title{font-size:28px;margin-bottom:8px;position:relative;padding-bottom:14px}
+.sec-title::after{content:"";position:absolute;left:0;bottom:0;width:52px;height:3px;border-radius:3px;background:var(--accent)}
 .sec-sub{color:var(--muted);margin-bottom:36px;font-size:14px}
-.about{display:grid;grid-template-columns:1.4fr 1fr;gap:48px}
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:start}
 .about p{color:var(--muted);margin-bottom:14px}
 .stats{display:grid;gap:14px}
-.stat{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+/* [EDITAR] las estadísticas se configuran en CONFIG.estadisticas */
+.stat{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;transition:transform .3s,border-color .3s}
+.stat:hover{transform:translateX(6px);border-color:var(--accent)}
 .stat b{font-family:Montserrat;font-size:24px}
 .stat small{display:block;color:var(--muted);font-size:12px}
 
 /* PROYECTOS */
-.card{flex:0 0 320px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:.35s}
-.card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(30,144,255,.35)}
-.card .thumb{height:180px;background:#0a0d12;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card{flex:0 0 320px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer}
+.card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(30,139,255,.45)}
+.card .thumb{height:180px;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
-.card:hover .thumb img{transform:scale(1.06)}
+.card:hover .thumb img{transform:scale(1.07)}
 .card .body{padding:20px}
-.tag{font-size:11px;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase}
+.tag{font-size:11px;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;font-weight:600}
 .card h3{font-size:17px;margin:8px 0 8px;line-height:1.3}
 .card p{color:var(--muted);font-size:13.5px}
-.more{margin-top:14px;font-size:12px;opacity:.7}
+.more{margin-top:14px;font-size:12px;opacity:.75;transition:transform .3s,opacity .3s,color .3s}
+.card:hover .more{transform:translateX(6px);opacity:1;color:var(--accent)}
 .proyectos-track{padding-bottom:18px}
 
-/* MODAL */
-.modal{position:fixed;inset:0;background:rgba(4,6,9,.82);backdrop-filter:blur(6px);display:flex;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;align-items:center;justify-content:center;z-index:100;padding:20px}
+/* MODAL DE PROYECTO */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:flex;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;align-items:center;justify-content:center;z-index:100;padding:20px}
 .modal.open{opacity:1;visibility:visible}
-.sheet{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;max-width:760px;width:100%;max-height:90vh;overflow:auto;position:relative;transform:translateY(24px) scale(.97);transition:transform .45s cubic-bezier(.2,.7,.2,1);color:var(--text)}
+.sheet{background:var(--bg-2);border:1px solid var(--line);border-radius:20px;max-width:760px;width:100%;max-height:90vh;overflow:auto;position:relative;transform:translateY(30px) scale(.96);transition:transform .5s cubic-bezier(.2,.7,.2,1);color:var(--text)}
 .modal.open .sheet{transform:none}
-.close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer;font-size:18px;z-index:2}
-.sheet .pad{padding:32px}
+.close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer;font-size:18px;z-index:2;transition:.3s}
+.close:hover{background:var(--accent);color:#fff;transform:rotate(90deg)}
+.sheet .pad{padding:34px}
 .sheet h2{font-size:24px;margin:10px 0 12px}
 .sheet p{color:var(--muted);margin-bottom:12px}
 .metrics{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
-.metrics div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:130px}
+.metrics div{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 16px;min-width:130px}
 .metrics b{display:block;font-family:Montserrat;font-size:18px}
 .metrics small{color:var(--muted);font-size:11px}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0}
@@ -158,29 +228,34 @@ section{padding:96px 0}
 .video{position:relative;padding-top:56.25%;margin-top:18px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-/* PILARES / MINERÍA */
+/* PILARES Y MINERÍA */
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-.pillar{border-top:1px solid var(--accent);padding-top:18px}
+.pillar{border-top:2px solid var(--accent);padding-top:18px;transition:transform .3s}
+.pillar:hover{transform:translateY(-4px)}
 .pillar h3{font-size:16px;margin-bottom:8px}
 .pillar p{color:var(--muted);font-size:13.5px}
 .mineria{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
 .mineria-lead{color:var(--muted);margin:18px 0 24px}
 .dominios{list-style:none;display:grid;gap:10px}
-.dominios li{position:relative;padding:12px 16px 12px 36px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);font-size:13.5px}
+.dominios li{position:relative;padding:12px 16px 12px 36px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2);font-size:13.5px;transition:transform .3s,border-color .3s}
+.dominios li:hover{transform:translateX(6px);border-color:var(--accent)}
 .dominios li::before{content:"";position:absolute;left:16px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--accent)}
 .mineria-img{width:100%;border-radius:var(--radius);border:1px solid var(--line)}
 
 /* EXPERIENCIA */
-.timeline-exp{border-left:1px solid var(--line);padding-left:26px;display:grid;gap:26px}
+/* [EDITAR] los puestos se configuran en CONFIG.experiencia */
+.timeline-exp{border-left:2px solid var(--line);padding-left:28px;display:grid;gap:26px}
 .job{position:relative}
-.job::before{content:"";position:absolute;left:-31px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
-.job small{color:var(--accent);font-size:12px}
+.job::before{content:"";position:absolute;left:-36px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg);animation:ringpulse 2.4s infinite}
+.job small{color:var(--accent);font-size:12px;font-weight:600}
 .job h3{font-size:16px;margin:4px 0}
 .job p{color:var(--muted);font-size:13.5px}
 
 /* FORMACIÓN */
+/* [EDITAR] las listas se configuran en CONFIG.formacion y CONFIG.competencias */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.box{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.box{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px;transition:border-color .3s,transform .3s}
+.box:hover{border-color:var(--accent);transform:translateY(-4px)}
 .box h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
 .box h3 .i{color:var(--accent)}
 .box ul{list-style:none;color:var(--muted);font-size:13.5px}
@@ -189,25 +264,46 @@ section{padding:96px 0}
 
 /* CONTACTO */
 .contact{text-align:center;border-top:1px solid var(--line)}
-.contact p{color:var(--muted);max-width:540px;margin:0 auto 26px}
-.contact .btns{justify-content:center}
+.contact .sec-title{display:inline-block}
+.contact p{color:var(--muted);max-width:540px;margin:18px auto 26px}
+.contact .btns{justify-content:center;animation:none}
 .contact .btn{color:var(--text);border-color:var(--line)}
+.contact .btn:hover{color:var(--accent)}
 .contact .btn.primary{color:#fff}
-footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
+footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;background:var(--bg)}
 
+/* =====================================================================
+   8. RESPONSIVE
+   ===================================================================== */
 @media (max-width:980px){
   .links{display:none}
-  .hero-bottom{grid-template-columns:1fr}
-  .frase{text-align:left;padding:0;min-width:0}
+  .hero-bottom{grid-template-columns:1fr;margin-top:40px}
   .about,.grid2,.pillars,.mineria{grid-template-columns:1fr}
   .card,.cert{flex-basis:80%}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+@media (max-width:720px){
+  .hero{padding-top:110px}
+  .tl{height:auto;display:grid;gap:16px}
+  .tl svg{display:none}
+  .node{position:static;transform:none;width:auto;text-align:left;opacity:1;animation:none;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .node .ico{margin:0}
+  .node small{display:inline}
+  .node b{display:inline}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{animation:none}
+  .node,.pill,.btns,.exp{opacity:1}
+  .tl .line{stroke-dashoffset:0}
+}
 </style>
 </head>
 <body>
 
-<!-- ICONOS -->
+<!-- =====================================================================
+     ICONOS (SVG). Para usar un icono nuevo: agrega un <symbol id="i-NOMBRE">
+     y úsalo en CONFIG escribiendo "NOMBRE" como icono.
+     ===================================================================== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
@@ -224,136 +320,117 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
-  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></symbol>
-  <symbol id="i-uni" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v9M9 10v9M15 10v9M19 10v9M3 21h18"/></symbol>
-  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h9M8 3v2M6 5c0 4 3 7 6 8M11 5c-.5 3-3 6-6 8"/><path d="M13 21l4-9 4 9M14.5 18h5"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
 </svg>
 
-<!-- HEADER -->
+<div class="progreso" id="progreso"></div>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<!-- =====================================================================
+     HEADER: [EDITAR] para agregar o quitar secciones del menú,
+     agrega o quita un <li> aquí. El href debe coincidir con el id de la sección.
+     ===================================================================== -->
 <header>
-  <nav>
+  <nav aria-label="Principal">
     <a class="brand" href="#inicio">
       <img src="img/logo.svg" alt="Logo de Álvaro Millán">
       <span class="sep"></span>PORTAFOLIO PERSONAL
     </a>
     <ul class="links">
-      <li><a href="#inicio" class="active"><svg class="i"><use href="#i-home"/></svg>Inicio</a></li>
-      <li><a href="#perfil"><svg class="i"><use href="#i-user"/></svg>Perfil</a></li>
-      <li><a href="#proyectos"><svg class="i"><use href="#i-code"/></svg>Proyectos</a></li>
-      <li><a href="#experiencia"><svg class="i"><use href="#i-briefcase"/></svg>Experiencia</a></li>
-      <li><a href="#formacion"><svg class="i"><use href="#i-cap"/></svg>Formación</a></li>
-      <li><a href="#contacto"><svg class="i"><use href="#i-mail"/></svg>Contacto</a></li>
+      <li><a href="#inicio" class="active"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>Inicio</a></li>
+      <li><a href="#perfil"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg>Perfil</a></li>
+      <li><a href="#proyectos"><svg class="i" aria-hidden="true"><use href="#i-code"/></svg>Proyectos</a></li>
+      <li><a href="#experiencia"><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg>Experiencia</a></li>
+      <li><a href="#formacion"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg>Formación</a></li>
+      <li><a href="#contacto"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>Contacto</a></li>
     </ul>
-    <button class="theme" id="tema" aria-label="Cambiar tema">
-      <svg class="i ico-sun"><use href="#i-sun"/></svg>
-      <svg class="i ico-moon"><use href="#i-moon"/></svg>
+    <button class="theme" id="tema" aria-label="Cambiar entre modo claro y oscuro">
+      <svg class="i ico-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      <svg class="i ico-moon" aria-hidden="true"><use href="#i-moon"/></svg>
     </button>
   </nav>
 </header>
 
-<!-- PORTADA -->
+<main id="contenido">
+
+<!-- =====================================================================
+     PORTADA
+     Los textos de esta sección se llenan desde CONFIG (abajo).
+     ===================================================================== -->
 <div class="hero" id="inicio">
   <div class="hero-bg"></div>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
 
   <div class="wrap">
-    <p class="eyebrow">Project Manager · Minería</p>
-    <h1>Álvaro<span>Millán Orellana</span></h1>
-    <p class="tagline">Ingeniería, software e inteligencia<br>para construir soluciones que <b>transforman</b>.</p>
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1><span class="l1" id="nombre1"></span><span class="l2" id="nombre2"></span></h1>
+    <span class="bar"></span>
+    <p class="tagline" id="tagline"></p>
 
-    <div class="pills">
-      <span class="pill"><svg class="i"><use href="#i-chip"/></svg>IA / Machine Learning</span>
-      <span class="pill"><svg class="i"><use href="#i-gear"/></svg>Gestión de Proyectos</span>
-      <span class="pill"><svg class="i"><use href="#i-chart"/></svg>Minería</span>
-      <span class="pill"><svg class="i"><use href="#i-bulb"/></svg>Innovación</span>
-    </div>
+    <div class="pills" id="pills"></div>
 
     <div class="btns">
-      <a class="btn primary" href="#perfil"><svg class="i"><use href="#i-down"/></svg>Conocer más</a>
-      <a class="btn" href="#contacto"><svg class="i"><use href="#i-mail"/></svg>Contáctame</a>
+      <a class="btn primary" href="#perfil"><svg class="i" aria-hidden="true"><use href="#i-down"/></svg>Conocer más</a>
+      <a class="btn" href="#contacto"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>Contáctame</a>
     </div>
 
     <div class="hero-bottom">
-      <div class="panel">
-        <h3><svg class="i"><use href="#i-briefcase"/></svg>Mi experiencia laboral</h3>
-        <div class="logos">
-          <img src="img/logo-southern.webp" alt="Southern Perú">
-          <span class="sep"></span>
-          <img src="img/logo-sanmartin.webp" alt="San Martín CG">
-          <span class="sep"></span>
-          <img src="img/logo-spcc.webp" alt="SPCC">
-        </div>
+      <div class="exp">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg>Mi experiencia laboral</h3>
+        <div class="logos" id="logos"></div>
       </div>
 
-      <div class="panel">
-        <h3><svg class="i"><use href="#i-cap"/></svg>Mi recorrido académico</h3>
-        <div class="timeline">
-          <div class="step"><div class="ico"><svg class="i"><use href="#i-book"/></svg></div><b>Colegio</b><small>Educación<br>Secundaria</small></div>
-          <div class="step"><div class="ico"><svg class="i"><use href="#i-gear"/></svg></div><b>Instituto</b><small>Ing. Mecatrónica</small></div>
-          <div class="step"><div class="ico"><svg class="i"><use href="#i-uni"/></svg></div><b>Universidad</b><small>Ing. Mecatrónica</small></div>
-          <div class="step"><div class="ico"><svg class="i"><use href="#i-award"/></svg></div><b>Postgrado</b><small>Especializaciones</small></div>
-        </div>
+      <div class="tl" id="tl" aria-label="Recorrido académico">
+        <svg id="tl-svg" viewBox="0 0 1000 290" preserveAspectRatio="none" aria-hidden="true">
+          <path class="line" id="tl-line" pathLength="1" vector-effect="non-scaling-stroke" d=""/>
+        </svg>
+        <!-- Los nodos se generan desde CONFIG.recorrido -->
       </div>
     </div>
   </div>
 </div>
 
-<!-- CERTIFICACIONES -->
+<!-- =====================================================================
+     CERTIFICACIONES
+     Las tarjetas se llenan desde CONFIG.certificaciones.
+     ===================================================================== -->
 <section class="cursos" style="padding-bottom:40px">
   <div class="wrap">
     <div class="head-row">
       <div>
-        <h2><svg class="i"><use href="#i-star"/></svg>Mis cursos y especializaciones</h2>
+        <h2><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>Mis cursos y especializaciones</h2>
         <p class="sub">Formación continua para seguir creciendo</p>
       </div>
-      <a class="ghost" href="#formacion">Ver todas las certificaciones <svg class="i"><use href="#i-right"/></svg></a>
-    </div>
-
-    <div class="carrusel">
-      <div class="track" id="cursos-track">
-        <article class="cert">
-          <img src="img/cert-ia.webp" alt="Inteligencia Artificial y ML">
-          <span class="badge">Curso</span>
-          <div class="info"><div><h4>Inteligencia Artificial y ML</h4><small>Coursera · 2025</small></div><span class="go"><svg class="i"><use href="#i-right"/></svg></span></div>
-        </article>
-        <article class="cert">
-          <img src="img/cert-python.webp" alt="Python para Ciencia de Datos">
-          <span class="badge">Curso</span>
-          <div class="info"><div><h4>Python para Ciencia de Datos</h4><small>Platzi · 2025</small></div><span class="go"><svg class="i"><use href="#i-right"/></svg></span></div>
-        </article>
-        <article class="cert">
-          <img src="img/cert-powerbi.webp" alt="Data Analytics con Power BI">
-          <span class="badge esp">Especialización</span>
-          <div class="info"><div><h4>Data Analytics con Power BI</h4><small>Microsoft · 2025</small></div><span class="go"><svg class="i"><use href="#i-right"/></svg></span></div>
-        </article>
-        <article class="cert">
-          <img src="img/cert-aws.webp" alt="Cloud Computing (AWS)">
-          <span class="badge">Curso</span>
-          <div class="info"><div><h4>Cloud Computing (AWS)</h4><small>AWS · 2024</small></div><span class="go"><svg class="i"><use href="#i-right"/></svg></span></div>
-        </article>
+      <div class="acciones">
+        <a class="ghost" href="#formacion">Ver todas las certificaciones <svg class="i" aria-hidden="true"><use href="#i-right"/></svg></a>
+        <div class="flechas">
+          <button id="c-prev" aria-label="Anterior"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button>
+          <button id="c-next" aria-label="Siguiente"><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></button>
+        </div>
       </div>
+    </div>
+    <div class="carrusel">
+      <div class="track" id="cursos-track"></div>
     </div>
   </div>
 </section>
 
-<!-- PERFIL -->
+<!-- PERFIL: los párrafos y estadísticas se llenan desde CONFIG -->
 <section id="perfil">
   <div class="wrap about">
     <div>
       <h2 class="sec-title">Perfil</h2>
-      <p style="margin-top:18px">Bachiller en Ingeniería Mecatrónica por UTEC, con experiencia en dirección de proyectos multidisciplinarios, analítica de datos y automatización de procesos en los sectores educativo, financiero, industrial y minero.</p>
-      <p>Mi enfoque es entender el proceso antes de construir la solución: planificar el alcance, controlar cronograma y costos, gestionar riesgos y convertir la información en decisiones.</p>
-      <p>Domino Python, SQL, Power BI y Microsoft 365. Aplico IA (visión computacional y modelos de lenguaje) a problemas operativos reales.</p>
+      <div id="perfil-texto"></div>
     </div>
-    <div class="stats">
-      <div class="stat"><b>Inglés B2</b><small>CEFR · British Council 2026</small></div>
-      <div class="stat"><b class="contador" data-n="4000" data-s="+">4,000+</b><small>Evidencias evaluadas por semana con IA (UGEL Jauja)</small></div>
-      <div class="stat"><b class="contador" data-n="3">3</b><small>proyectos mineros y de construcción con control documentario</small></div>
-    </div>
+    <div class="stats" id="stats"></div>
   </div>
 </section>
 
-<!-- PROYECTOS -->
+<!-- PROYECTOS: se llenan desde el arreglo PROYECTOS (abajo) -->
 <section id="proyectos" style="padding-top:20px">
   <div class="wrap">
     <div class="head-row">
@@ -362,101 +439,73 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <p class="sec-sub" style="margin:0">Desliza para ver más. Haz clic en uno para ver el detalle.</p>
       </div>
       <div class="flechas">
-        <button id="prev" aria-label="Anterior"><svg class="i"><use href="#i-left"/></svg></button>
-        <button id="next" aria-label="Siguiente"><svg class="i"><use href="#i-right"/></svg></button>
+        <button id="prev" aria-label="Anterior"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button>
+        <button id="next" aria-label="Siguiente"><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></button>
       </div>
     </div>
     <div class="track proyectos-track" id="track"></div>
   </div>
 </section>
 
-<!-- PILARES -->
+<!-- PILARES: se llenan desde CONFIG.pilares -->
 <section id="pilares" style="padding-top:0">
-  <div class="wrap pillars">
-    <div class="pillar"><h3>Entender antes de construir</h3><p>Mapeo el proceso, los actores y los riesgos antes de proponer una solución.</p></div>
-    <div class="pillar"><h3>Medir para decidir</h3><p>Cronograma, costos y avance en indicadores claros que la gerencia lee en minutos.</p></div>
-    <div class="pillar"><h3>Automatizar lo repetitivo</h3><p>Python, SQL y Microsoft 365 para reducir errores manuales y ganar trazabilidad.</p></div>
-  </div>
+  <div class="wrap pillars" id="pilares-grid"></div>
 </section>
 
-<!-- MINERÍA -->
+<!-- MINERÍA: se llena desde CONFIG.mineria -->
 <section id="mineria" style="padding-top:0">
   <div class="wrap mineria">
     <div>
-      <span class="tag">Minería y construcción</span>
-      <h2 class="sec-title" style="margin-top:10px">Del tajo a la oficina técnica</h2>
-      <p class="mineria-lead">Trabajo en la capa que sostiene un proyecto minero: el cronograma que se cumple, la documentación que respalda cada decisión y los cambios de contrato que afectan costo y plazo.</p>
-      <ul class="dominios">
-        <li>Planeamiento y control de cronograma y costos</li>
-        <li>Control documentario: transmittals, revisiones y trazabilidad</li>
-        <li>Administración de contratos: control de cambios (IO y OC)</li>
-        <li>Análisis de impacto costo-plazo y solicitudes formales (RFI)</li>
-        <li>Coordinación de interferencias en campo</li>
-        <li>Cierre de proyectos y entrega de documentación</li>
-      </ul>
+      <span class="tag" id="mineria-etiqueta"></span>
+      <h2 class="sec-title" id="mineria-titulo" style="margin-top:10px"></h2>
+      <p class="mineria-lead" id="mineria-texto"></p>
+      <ul class="dominios" id="mineria-lista"></ul>
     </div>
-    <img class="mineria-img" src="img/mineria-tajo.svg" alt="Ilustración de un tajo minero con camión de acarreo">
+    <img class="mineria-img" id="mineria-img" src="" alt="">
   </div>
 </section>
 
-<!-- EXPERIENCIA -->
+<!-- EXPERIENCIA: se llena desde CONFIG.experiencia -->
 <section id="experiencia">
   <div class="wrap">
     <h2 class="sec-title">Experiencia</h2>
     <p class="sec-sub">Trayectoria profesional.</p>
-    <div class="timeline-exp">
-      <div class="job"><small>Abr 2024 – Actualidad</small><h3>Administrador de plataforma educativa · UGEL Jauja</h3><p>Colaborador externo. Implementación de la estrategia educativa, base de datos PostgreSQL y sistema de evaluación con IA.</p></div>
-      <div class="job"><small>Ene 2025 – Abr 2026</small><h3>Desarrollador de sistemas digitales · DALIMSA S.A.C.</h3><p>Intranet corporativa, backend en Python y PostgreSQL, identificación con códigos QR y bot de WhatsApp.</p></div>
-      <div class="job"><small>Nov 2023 – Ene 2024</small><h3>Asistente de control de calidad en obra · UGUIL S.A.</h3><p>Proyecto de defensas ribereñas. Control documentario y digitalización de protocolos con OCR en Python.</p></div>
-      <div class="job"><small>Ene – Mar 2023</small><h3>Practicante de Data Analytics · Banco de Crédito del Perú</h3><p>Analítica con Python, modelos de detección de anomalías con Scikit-learn y dashboards en Power BI.</p></div>
-    </div>
+    <div class="timeline-exp" id="exp-list"></div>
   </div>
 </section>
 
-<!-- FORMACIÓN Y COMPETENCIAS -->
+<!-- FORMACIÓN Y COMPETENCIAS: se llenan desde CONFIG -->
 <section id="formacion">
   <div class="wrap grid2">
     <div class="box">
-      <h3><svg class="i"><use href="#i-cap"/></svg>Formación</h3>
-      <ul>
-        <li>Maestría en Docencia Universitaria (en curso) · UCV</li>
-        <li>Bachiller en Ingeniería Mecatrónica · UTEC</li>
-        <li>Programa de Inglés Avanzado · ICPB</li>
-        <li>Certificación en Analítica Descriptiva con Python · BCP</li>
-        <li>Transformación Digital · Tecnológico de Monterrey</li>
-        <li>Agile Innovation and Problem Solving · University System of Maryland</li>
-      </ul>
+      <h3><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg>Formación</h3>
+      <ul id="formacion-lista"></ul>
     </div>
     <div class="box">
-      <h3><svg class="i"><use href="#i-chip"/></svg>Competencias técnicas</h3>
-      <ul>
-        <li>Dirección de proyectos: Primavera P6, MS Project</li>
-        <li>Planeamiento y control de cronograma y costos</li>
-        <li>Python, SQL, Power BI, VBA</li>
-        <li>IA aplicada: OCR, visión computacional, Scikit-learn, TensorFlow</li>
-        <li>Microsoft 365: SharePoint, Power Apps, Power Automate</li>
-        <li>Automatización industrial: PLC Siemens, Allen-Bradley</li>
-      </ul>
+      <h3><svg class="i" aria-hidden="true"><use href="#i-chip"/></svg>Competencias técnicas</h3>
+      <ul id="competencias-lista"></ul>
     </div>
   </div>
 </section>
 
-<!-- CONTACTO -->
+<!-- CONTACTO: correo y GitHub se llenan desde CONFIG -->
 <section id="contacto" class="contact">
   <div class="wrap">
     <h2 class="sec-title">Hablemos</h2>
-    <p>Si buscas un profesional para dirección de proyectos de minería, planeamiento o soluciones con IA y automatización, escríbeme.</p>
+    <p id="contacto-texto"></p>
     <div class="btns">
-      <a class="btn primary" href="mailto:alvaro.millan.369@gmail.com"><svg class="i"><use href="#i-mail"/></svg>alvaro.millan.369@gmail.com</a>
-      <a class="btn" href="https://github.com/alvaromo-dev" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn primary" id="contacto-correo" href="#"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg></a>
+      <a class="btn" id="contacto-github" href="#" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>© <span id="anio"></span> Álvaro Millán Orellana</footer>
 
 <!-- MODAL DE DETALLE DEL PROYECTO -->
-<div class="modal" id="modal" role="dialog" aria-modal="true">
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
   <div class="sheet">
     <button class="close" id="close" aria-label="Cerrar">×</button>
     <div class="pad" id="modal-body"></div>
@@ -464,12 +513,167 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 </div>
 
 <script>
-/* ==========================================================
-   PROYECTOS: para agregar uno nuevo, copia un objeto y edítalo.
+/* =====================================================================
+   ========================  CONFIGURACIÓN  ============================
+   TODO LO QUE PUEDES EDITAR ESTÁ AQUÍ, EN ESTE BLOQUE.
+   Reglas generales:
+   - Los textos van entre comillas dobles "así".
+   - Cada elemento de una lista va entre llaves { } y separado por coma.
+   - Si borras un elemento de una lista, borra también su coma.
+   - Las rutas de imágenes son relativas a la carpeta img/.
+   ===================================================================== */
+const CONFIG = {
+
+  /* ---------- 1. DATOS PERSONALES (portada) ---------- */
+  eyebrow: "Project Manager · Minería",          // texto pequeño arriba del nombre
+  nombre: {
+    linea1: "Álvaro",                            // primera línea grande
+    linea2: "Millán Orellana"                    // segunda línea más fina
+  },
+  tagline: {
+    linea1: "Ingeniería, software e inteligencia",
+    linea2: "para construir soluciones que",
+    resaltado: "transforman"                     // palabra en azul con brillo (se añade un punto al final)
+  },
+
+  /* ---------- 2. ETIQUETAS DE LA PORTADA (pills) ----------
+     icono: uno de estos nombres: chip, gear, chart, bulb, star, code, user, mail, cap, briefcase, globe, lang, trophy
+  */
+  pills: [
+    { icono: "chip",  texto: "IA / Machine Learning" },
+    { icono: "gear",  texto: "Gestión de Proyectos" },
+    { icono: "chart", texto: "Minería" },
+    { icono: "bulb",  texto: "Innovación" }
+  ],
+
+  /* ---------- 3. EXPERIENCIA LABORAL (logos del panel blanco) ----------
+     src: ruta de la imagen en img/   alt: texto alternativo (nombre de la empresa)
+     Para agregar uno, copia una línea { src: "...", alt: "..." }
+  */
+  logosExperiencia: [
+    { src: "img/logo-bcp.webp",        alt: "BCP" },
+    { src: "img/logo-uguil.webp",      alt: "UGUIL" },
+    { src: "img/logo-cec.webp",        alt: "Construcción" },
+    { src: "img/logo-sanmartin.webp",  alt: "San Martín CG" },
+    { src: "img/logo-grupomexico.webp",alt: "Grupo México Minería" }
+  ],
+
+  /* ---------- 4. RECORRIDO ACADÉMICO (línea de tiempo sobre la foto) ----------
+     x: posición horizontal en %  (0 = izquierda, 100 = derecha)
+     y: altura en píxeles         (0 = arriba, 290 = abajo). Los nodos deben ir de abajo a arriba, de izquierda a derecha.
+     icono: cap, globe, lang, gear, trophy, book, award, uni, star
+     titulo / sub: primera y segunda línea del texto (sub puede ir vacío "")
+  */
+  recorrido: [
+    { x: 10, y: 200, icono: "cap",    titulo: "Colegio",               sub: "" },
+    { x: 30, y: 158, icono: "globe",  titulo: "Bachillerato",          sub: "Internacional" },
+    { x: 49, y: 116, icono: "lang",   titulo: "Inglés Avanzado",       sub: "Británico" },
+    { x: 68, y: 70,  icono: "gear",   titulo: "Ing. Mecatrónica",      sub: "UTEC" },
+    { x: 88, y: 8,   icono: "trophy", titulo: "Magíster en",           sub: "Docencia Universitaria" }
+  ],
+
+  /* ---------- 5. CERTIFICACIONES (carrusel) ----------
+     img: imagen de portada en img/  |  tipo: "Curso" o "Especialización"
+  */
+  certificaciones: [
+    { img: "img/cert-ia.webp",      titulo: "Inteligencia Artificial y ML", plataforma: "Coursera",  anio: 2025, tipo: "Curso" },
+    { img: "img/cert-python.webp",  titulo: "Python para Ciencia de Datos", plataforma: "Platzi",    anio: 2025, tipo: "Curso" },
+    { img: "img/cert-powerbi.webp", titulo: "Data Analytics con Power BI",  plataforma: "Microsoft", anio: 2025, tipo: "Especialización" },
+    { img: "img/cert-aws.webp",     titulo: "Cloud Computing (AWS)",        plataforma: "AWS",       anio: 2024, tipo: "Curso" }
+  ],
+
+  /* ---------- 6. SECCIÓN PERFIL ----------
+     perfil: cada texto entre comillas es un párrafo.
+  */
+  perfil: [
+    "Bachiller en Ingeniería Mecatrónica por UTEC, con experiencia en dirección de proyectos multidisciplinarios, analítica de datos y automatización de procesos en los sectores educativo, financiero, industrial y minero.",
+    "Mi enfoque es entender el proceso antes de construir la solución: planificar el alcance, controlar cronograma y costos, gestionar riesgos y convertir la información en decisiones.",
+    "Domino Python, SQL, Power BI y Microsoft 365. Aplico IA (visión computacional y modelos de lenguaje) a problemas operativos reales."
+  ],
+
+  /* ---------- 7. ESTADÍSTICAS (tarjetas a la derecha del perfil) ----------
+     Si quieres un número que se anime: usa numero y sufijo.
+     Si quieres texto fijo: usa valor.
+  */
+  estadisticas: [
+    { valor: "Inglés B2", nota: "CEFR · British Council 2026" },
+    { numero: 4000, sufijo: "+", nota: "Evidencias evaluadas por semana con IA (UGEL Jauja)" },
+    { numero: 3, nota: "proyectos mineros y de construcción con control documentario" }
+  ],
+
+  /* ---------- 8. PILARES (tres bloques debajo de proyectos) ---------- */
+  pilares: [
+    { titulo: "Entender antes de construir", texto: "Mapeo el proceso, los actores y los riesgos antes de proponer una solución." },
+    { titulo: "Medir para decidir",          texto: "Cronograma, costos y avance en indicadores claros que la gerencia lee en minutos." },
+    { titulo: "Automatizar lo repetitivo",   texto: "Python, SQL y Microsoft 365 para reducir errores manuales y ganar trazabilidad." }
+  ],
+
+  /* ---------- 9. SECCIÓN MINERÍA ---------- */
+  mineria: {
+    etiqueta: "Minería y construcción",
+    titulo: "Del tajo a la oficina técnica",
+    texto: "Trabajo en la capa que sostiene un proyecto minero: el cronograma que se cumple, la documentación que respalda cada decisión y los cambios de contrato que afectan costo y plazo.",
+    lista: [
+      "Planeamiento y control de cronograma y costos",
+      "Control documentario: transmittals, revisiones y trazabilidad",
+      "Administración de contratos: control de cambios (IO y OC)",
+      "Análisis de impacto costo-plazo y solicitudes formales (RFI)",
+      "Coordinación de interferencias en campo",
+      "Cierre de proyectos y entrega de documentación"
+    ],
+    imagen: "img/mineria-tajo.svg",
+    alt: "Ilustración de un tajo minero con camión de acarreo"
+  },
+
+  /* ---------- 10. EXPERIENCIA (lista de puestos) ----------
+     periodo: fechas   titulo: cargo   empresa: organización   descripcion: texto corto
+  */
+  experiencia: [
+    { periodo: "Abr 2024 – Actualidad", titulo: "Administrador de plataforma educativa", empresa: "UGEL Jauja",
+      descripcion: "Colaborador externo. Implementación de la estrategia educativa, base de datos PostgreSQL y sistema de evaluación con IA." },
+    { periodo: "Ene 2025 – Abr 2026", titulo: "Desarrollador de sistemas digitales", empresa: "DALIMSA S.A.C.",
+      descripcion: "Intranet corporativa, backend en Python y PostgreSQL, identificación con códigos QR y bot de WhatsApp." },
+    { periodo: "Nov 2023 – Ene 2024", titulo: "Asistente de control de calidad en obra", empresa: "UGUIL S.A.",
+      descripcion: "Proyecto de defensas ribereñas. Control documentario y digitalización de protocolos con OCR en Python." },
+    { periodo: "Ene – Mar 2023", titulo: "Practicante de Data Analytics", empresa: "Banco de Crédito del Perú",
+      descripcion: "Analítica con Python, modelos de detección de anomalías con Scikit-learn y dashboards en Power BI." }
+  ],
+
+  /* ---------- 11. FORMACIÓN Y COMPETENCIAS (listas simples) ---------- */
+  formacion: [
+    "Maestría en Docencia Universitaria (en curso) · UCV",
+    "Bachiller en Ingeniería Mecatrónica · UTEC",
+    "Programa de Inglés Avanzado · ICPB",
+    "Certificación en Analítica Descriptiva con Python · BCP",
+    "Transformación Digital · Tecnológico de Monterrey",
+    "Agile Innovation and Problem Solving · University System of Maryland"
+  ],
+  competencias: [
+    "Dirección de proyectos: Primavera P6, MS Project",
+    "Planeamiento y control de cronograma y costos",
+    "Python, SQL, Power BI, VBA",
+    "IA aplicada: OCR, visión computacional, Scikit-learn, TensorFlow",
+    "Microsoft 365: SharePoint, Power Apps, Power Automate",
+    "Automatización industrial: PLC Siemens, Allen-Bradley"
+  ],
+
+  /* ---------- 12. CONTACTO ---------- */
+  contacto: {
+    texto: "Si buscas un profesional para dirección de proyectos de minería, planeamiento o soluciones con IA y automatización, escríbeme.",
+    correo: "alvaro.millan.369@gmail.com",
+    github: "https://github.com/alvaromo-dev"
+  }
+};
+
+/* =====================================================================
+   ===================  PROYECTOS  ======================================
+   Para agregar un proyecto: copia un bloque { ... } completo, pégalo
+   al final de la lista (antes del ] ) y edítalo.
    - img: imagen de portada (en img/)
-   - gallery: fotos adicionales (rutas en img/)
+   - metricas: pares [valor, etiqueta] que aparecen en el detalle
+   - gallery: fotos adicionales (rutas en img/); [] si no hay
    - video: ID de YouTube (lo que va después de ?v=), o "" si no hay
-   ========================================================== */
+   ===================================================================== */
 const PROYECTOS = [
   {
     titulo: "Evaluador matemático con IA",
@@ -527,100 +731,149 @@ const PROYECTOS = [
   }
 ];
 
+/* =====================================================================
+   ==================  LÓGICA (no necesitas editar esto)  ===============
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const icono = (nombre, clase = "i") => `<svg class="${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
+
 /* ---------- Tema claro / oscuro ---------- */
 const raiz = document.documentElement;
 const temaGuardado = localStorage.getItem("tema");
 if (temaGuardado) raiz.dataset.theme = temaGuardado;
-document.getElementById("tema").onclick = () => {
+$("tema").onclick = () => {
   const nuevo = raiz.dataset.theme === "light" ? "dark" : "light";
   raiz.dataset.theme = nuevo;
   localStorage.setItem("tema", nuevo);
 };
 
-/* ---------- Render de proyectos ---------- */
-const track = document.getElementById("track");
+/* ---------- Portada ---------- */
+$("eyebrow").textContent = CONFIG.eyebrow;
+$("nombre1").textContent = CONFIG.nombre.linea1;
+$("nombre2").textContent = CONFIG.nombre.linea2;
+$("tagline").innerHTML = `${CONFIG.tagline.linea1}<br>${CONFIG.tagline.linea2} <b>${CONFIG.tagline.resaltado}</b>.`;
+
+$("pills").innerHTML = CONFIG.pills.map((p, i) =>
+  `<span class="pill" style="animation-delay:${1.05 + i * 0.1}s">${icono(p.icono)}${p.texto}</span>`
+).join("");
+
+$("logos").innerHTML = CONFIG.logosExperiencia.map((l, i) =>
+  (i ? `<span class="sep"></span>` : "") + `<img src="${l.src}" alt="${l.alt}" loading="lazy">`
+).join("");
+
+/* ---------- Línea de tiempo académica ---------- */
+const tl = $("tl");
+const puntos = [];
+CONFIG.recorrido.forEach((n, i) => {
+  const nodo = document.createElement("div");
+  nodo.className = "node";
+  nodo.style.setProperty("--x", n.x + "%");
+  nodo.style.setProperty("--y", n.y + "px");
+  nodo.style.setProperty("--d", (1.9 + i * 0.4) + "s");
+  nodo.innerHTML = `<div class="ico">${icono(n.icono)}</div><b>${n.titulo}</b>${n.sub ? `<small>${n.sub}</small>` : ""}`;
+  tl.appendChild(nodo);
+  puntos.push([n.x * 10, n.y + 29]); // centro del icono; el viewBox es 1000 de ancho
+});
+// Curva suave que pasa por el centro de cada nodo
+function trazoSuave(pts) {
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2;
+    d += ` Q${pts[i][0]},${pts[i][1]} ${mx},${my}`;
+  }
+  const u = pts[pts.length - 1];
+  return d + ` L${u[0]},${u[1]}`;
+}
+$("tl-line").setAttribute("d", trazoSuave(puntos));
+
+/* ---------- Certificaciones ---------- */
+$("cursos-track").innerHTML = CONFIG.certificaciones.map(c => `
+  <article class="cert reveal">
+    <img src="${c.img}" alt="${c.titulo}" loading="lazy">
+    <span class="${c.tipo === "Especialización" ? "badge esp" : "badge"}">${c.tipo}</span>
+    <div class="info">
+      <div><h4>${c.titulo}</h4><small>${c.plataforma} · ${c.anio}</small></div>
+      <span class="go">${icono("right")}</span>
+    </div>
+  </article>`).join("");
+
+/* ---------- Perfil ---------- */
+$("perfil-texto").innerHTML = CONFIG.perfil.map(p => `<p>${p}</p>`).join("");
+$("stats").innerHTML = CONFIG.estadisticas.map(s => {
+  const valor = s.numero !== undefined
+    ? `<b class="contador" data-n="${s.numero}" data-s="${s.sufijo || ""}">${s.numero}${s.sufijo || ""}</b>`
+    : `<b>${s.valor}</b>`;
+  return `<div class="stat reveal">${valor}<small>${s.nota}</small></div>`;
+}).join("");
+
+/* ---------- Proyectos ---------- */
+const track = $("track");
 PROYECTOS.forEach((p, i) => {
   const card = document.createElement("article");
-  card.className = "card";
+  card.className = "card reveal";
+  card.style.setProperty("--d", (i * 0.1) + "s");
   card.tabIndex = 0;
   card.innerHTML = `
-    <div class="thumb"><img src="${p.img}" alt="${p.titulo}"></div>
+    <div class="thumb"><img src="${p.img}" alt="${p.titulo}" loading="lazy"></div>
     <div class="body">
       <span class="tag">${p.categoria}</span>
       <h3>${p.titulo}</h3>
       <p>${p.resumen}</p>
       <div class="more">Ver detalle →</div>
     </div>`;
-  card.addEventListener("click", () => abrir(i));
-  card.addEventListener("keydown", e => { if (e.key === "Enter") abrir(i); });
+  card.addEventListener("click", () => abrir(i, card));
+  card.addEventListener("keydown", e => { if (e.key === "Enter") abrir(i, card); });
   track.appendChild(card);
 });
 
-/* ---------- Carruseles (proyectos y certificaciones) ---------- */
+/* ---------- Carruseles ---------- */
 function carrusel(trackId, prevId, nextId) {
-  const t = document.getElementById(trackId);
-  const paso = () => t.firstElementChild.offsetWidth + 20;
-  document.getElementById(nextId).onclick = () => t.scrollBy({ left: paso(), behavior: "smooth" });
-  document.getElementById(prevId).onclick = () => t.scrollBy({ left: -paso(), behavior: "smooth" });
+  const t = $(trackId);
+  const paso = () => (t.firstElementChild ? t.firstElementChild.offsetWidth + 20 : 300);
+  $(nextId).onclick = () => t.scrollBy({ left: paso(), behavior: "smooth" });
+  $(prevId).onclick = () => t.scrollBy({ left: -paso(), behavior: "smooth" });
 }
 carrusel("track", "prev", "next");
+carrusel("cursos-track", "c-prev", "c-next");
 
-/* ---------- Modal de detalle ---------- */
-const modal = document.getElementById("modal");
-const body = document.getElementById("modal-body");
-function abrir(i) {
+/* ---------- Modal de proyecto ---------- */
+const modal = $("modal");
+const cuerpo = $("modal-body");
+let ultimoFoco = null;
+function abrir(i, origen) {
   const p = PROYECTOS[i];
+  ultimoFoco = origen || document.activeElement;
   const metricas = p.metricas.map(([v, l]) => `<div><b>${v}</b><small>${l}</small></div>`).join("");
   const galeria = p.gallery.length
-    ? `<div class="gallery">${p.gallery.map(src => `<img src="${src}" alt="">`).join("")}</div>` : "";
+    ? `<div class="gallery">${p.gallery.map(src => `<img src="${src}" alt="" loading="lazy">`).join("")}</div>` : "";
   const video = p.video
     ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${p.video}" allowfullscreen title="${p.titulo}"></iframe></div>` : "";
-  body.innerHTML = `
+  cuerpo.innerHTML = `
     <span class="tag">${p.categoria}</span>
-    <h2>${p.titulo}</h2>
+    <h2 id="modal-titulo">${p.titulo}</h2>
     <p>${p.detalle}</p>
     <div class="metrics">${metricas}</div>
     <div class="chips">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
     ${video}${galeria}`;
   modal.classList.add("open");
+  $("close").focus();
 }
-function cerrar() { modal.classList.remove("open"); body.innerHTML = ""; }
-document.getElementById("close").onclick = cerrar;
+function cerrar() {
+  modal.classList.remove("open");
+  cuerpo.innerHTML = "";
+  if (ultimoFoco) ultimoFoco.focus();
+}
+$("close").onclick = cerrar;
 modal.addEventListener("click", e => { if (e.target === modal) cerrar(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) cerrar(); });
 
-/* ---------- Enlace activo en la navegación ---------- */
-const enlaces = [...document.querySelectorAll(".links a")];
-const secciones = enlaces.map(a => document.querySelector(a.getAttribute("href")));
-window.addEventListener("scroll", () => {
-  let activo = 0;
-  secciones.forEach((s, i) => { if (s.getBoundingClientRect().top < 200) activo = i; });
-  enlaces.forEach((a, i) => a.classList.toggle("active", i === activo));
-}, { passive: true });
+/* ---------- Pilares ---------- */
+$("pilares-grid").innerHTML = CONFIG.pilares.map(p =>
+  `<div class="pillar reveal"><h3>${p.titulo}</h3><p>${p.texto}</p></div>`
+).join("");
 
-/* ---------- Contadores ---------- */
-const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const contar = el => {
-  const fin = +el.dataset.n, suf = el.dataset.s || "";
-  if (reducir) { el.textContent = fin.toLocaleString("es-PE") + suf; return; }
-  const t0 = performance.now();
-  const frame = t => {
-    const p = Math.min((t - t0) / 1400, 1);
-    el.textContent = Math.round(fin * (1 - Math.pow(1 - p, 3))).toLocaleString("es-PE") + suf;
-    if (p < 1) requestAnimationFrame(frame);
-  };
-  requestAnimationFrame(frame);
-};
-const observador = new IntersectionObserver((entradas, obs) => {
-  entradas.forEach(en => {
-    if (!en.isIntersecting) return;
-    contar(en.target);
-    obs.unobserve(en.target);
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll(".contador").forEach(el => observador.observe(el));
-
-document.getElementById("anio").textContent = new Date().getFullYear();
-</script>
-</body>
-</html>
+/* ---------- Minería ---------- */
+$("mineria-etiqueta").textContent = CONFIG.mineria.etiqueta;
+$("mineria-titulo").textContent = CONFIG.mineria.titulo;
+$("mineria-texto").textContent = CONFIG.mineria.texto;
+$("mineria-lista").innerHTML = CONFIG.mineria.lista.map(t => `<li
