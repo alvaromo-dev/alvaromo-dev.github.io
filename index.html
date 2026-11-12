@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Álvaro Millán Orellana — Project Manager. Planeamiento, minería, inteligencia artificial y tecnología.">
-<title>Álvaro Millán Orellana | Project Manager</title>
+<meta name="description" content="Álvaro Millán Orellana — Ingeniero Mecatrónico. Planeamiento y control de proyectos, y automatización, control e instrumentación industrial.">
+<title>Álvaro Millán Orellana | Planeamiento y Automatización</title>
 <link rel="icon" href="img/logo.svg">
-<meta property="og:title" content="Álvaro Millán Orellana | Project Manager">
-<meta property="og:description" content="Dirección de proyectos, planeamiento minero, inteligencia artificial y tecnología.">
+<meta property="og:title" content="Álvaro Millán Orellana | Planeamiento y Automatización">
+<meta property="og:description" content="Planeamiento y control de proyectos, automatización e instrumentación industrial, minería.">
 <meta property="og:image" content="img/portada.webp">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,18 +19,18 @@
    El modo oscuro es el predeterminado; el claro se activa con el botón.
    ===================================================================== */
 :root{
-  --bg:#050608;          /* fondo general (oscuro)                    */
-  --bg-2:#0c0f14;        /* fondo de tarjetas (oscuro)                */
-  --line:rgba(255,255,255,.1); /* bordes                              */
-  --text:#ffffff;        /* texto principal                           */
-  --muted:#9aa4b2;       /* texto secundario                          */
-  --accent:#1e8bff;      /* color de acento (azul)                    */
-  --accent-2:#5b2fd6;    /* acento secundario (especializaciones)     */
-  --radius:18px;         /* redondeo de tarjetas                      */
+  --bg:#050608;
+  --bg-2:#0c0f14;
+  --line:rgba(255,255,255,.1);
+  --text:#ffffff;
+  --muted:#9aa4b2;
+  --accent:#1e8bff;      /* línea 1: Planeamiento y control (azul) */
+  --accent-2:#14b8a6;    /* línea 2: Automatización e instrumentación (verde azulado) */
+  --radius:18px;
 }
 [data-theme="light"]{
   --bg:#ffffff; --bg-2:#f4f6f9; --line:#e2e6ec;
-  --text:#0a0a0a; --muted:#5b6472; --accent:#0a6fd6; --accent-2:#4a22b8;
+  --text:#0a0a0a; --muted:#5b6472; --accent:#0a6fd6; --accent-2:#0f8a7a;
 }
 
 /* =====================================================================
@@ -63,9 +63,8 @@ img{max-width:100%;display:block}
 @keyframes pop{from{opacity:0;transform:translate(-50%,18px) scale(.9)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 @keyframes ringpulse{0%{box-shadow:0 0 0 0 rgba(30,139,255,.5)}70%{box-shadow:0 0 0 14px rgba(30,139,255,0)}100%{box-shadow:0 0 0 0 rgba(30,139,255,0)}}
 
-/* Elementos que se revelan al hacer scroll (la clase .in la añade el JS) */
-.reveal{animation:up .8s var(--d,0s) cubic-bezier(.2,.7,.2,1) backwards;animation-play-state:paused}
-.reveal.in{animation-play-state:running}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--d,0s),transform .7s var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
 
 /* =====================================================================
    4. HEADER / NAVEGACIÓN  (siempre blanco)
@@ -79,7 +78,7 @@ header.compacta nav{height:56px}
 .brand{display:flex;align-items:center;gap:12px;font-family:Montserrat;font-weight:700;font-size:14px;letter-spacing:.4px;color:#0a0a0a}
 .brand img{height:34px;width:auto}
 .brand .sep{width:1px;height:26px;background:#d5dbe3}
-.links{display:flex;gap:26px;list-style:none}
+.links{display:flex;gap:22px;list-style:none}
 .links a{display:flex;align-items:center;gap:7px;font-size:13.5px;color:#5b6472;padding:20px 0;position:relative;transition:color .25s}
 .links a:hover{color:#0a0a0a}
 .links a.active{color:#0a6fd6;font-weight:600}
@@ -101,9 +100,9 @@ header.compacta nav{height:56px}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#000 14%,rgba(0,0,0,.6) 50%,rgba(0,0,0,.12) 100%),linear-gradient(0deg,#000 0%,transparent 45%)}
 .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;animation:float 14s ease-in-out infinite;z-index:0}
 .glow.g1{width:420px;height:420px;background:#1e8bff;left:-140px;top:18%}
-.glow.g2{width:340px;height:340px;background:#5b2fd6;right:6%;bottom:8%;animation-delay:-6s}
+.glow.g2{width:340px;height:340px;background:#14b8a6;right:6%;bottom:8%;animation-delay:-6s}
 .hero .wrap{position:relative;z-index:1;width:100%}
-.eyebrow{font-size:13px;letter-spacing:4px;color:#1e8bff;text-transform:uppercase;font-weight:600;animation:up .9s .2s both}
+.eyebrow{font-size:13px;letter-spacing:3px;color:#1e8bff;text-transform:uppercase;font-weight:600;animation:up .9s .2s both}
 .hero h1{margin-top:16px;line-height:1}
 .hero h1 .l1{display:block;font-size:clamp(40px,5.4vw,70px);font-weight:800;animation:left 1s .35s both}
 .hero h1 .l2{display:block;font-size:clamp(30px,4vw,52px);font-weight:300;color:#d6dde8;margin-top:4px;animation:up 1s .5s both}
@@ -124,7 +123,6 @@ header.compacta nav{height:56px}
 .btn.primary{background:#1e8bff;border-color:#1e8bff;color:#fff;animation:pulse 2.4s infinite;box-shadow:0 12px 30px -12px rgba(30,139,255,.8)}
 .btn.primary:hover{background:#0a6fd6;border-color:#0a6fd6;color:#fff}
 
-/* Panel de experiencia (logos) y línea de tiempo académica */
 .hero-bottom{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:24px;align-items:end;margin-top:60px}
 .exp{background:#fff;color:#0a0a0a;border-radius:var(--radius);padding:22px 26px;box-shadow:0 24px 60px -20px rgba(0,0,0,.6);animation:up .9s 1.6s both}
 .exp h3{font-size:15px;display:flex;align-items:center;gap:10px;margin-bottom:18px}
@@ -133,6 +131,7 @@ header.compacta nav{height:56px}
 .logos img{height:34px;width:auto;object-fit:contain;transition:transform .35s}
 .logos img:hover{transform:scale(1.08)}
 .logos .sep{width:1px;height:36px;background:#e2e6ec}
+.exp-texto{font-size:13px;color:#5b6472;margin-top:14px}
 
 /* [EDITAR] la línea de tiempo se configura en CONFIG.recorrido. La altura fija (290px) debe ser la misma en .tl y en el viewBox del SVG */
 .tl{position:relative;height:290px}
@@ -159,19 +158,18 @@ header.compacta nav{height:56px}
 .acciones{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:none;flex:1}
 .track::-webkit-scrollbar{display:none}
-.cert,.card{transition:opacity .8s var(--d,0s),transform .35s,border-color .35s,box-shadow .35s}
-.cert{flex:0 0 280px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative}
+.cert{flex:0 0 280px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative;transition:transform .35s,border-color .35s,box-shadow .35s}
 .cert:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(30,139,255,.45)}
-.cert img{width:100%;height:150px;object-fit:cover;transition:transform .7s}
+.cert img,.cert-ph{width:100%;height:150px;object-fit:cover}
+.cert-ph{display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}
+.cert-ph .i{width:44px;height:44px}
+.cert img{transition:transform .7s}
 .cert:hover img{transform:scale(1.07)}
 .cert .badge{position:absolute;top:12px;right:12px;font-size:11px;font-weight:600;background:var(--accent);color:#fff;padding:4px 12px;border-radius:99px}
 .cert .badge.esp{background:var(--accent-2)}
 .cert .info{padding:16px 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
 .cert h4{font-size:14.5px;margin-bottom:4px}
 .cert small{color:var(--muted);font-size:12px}
-.cert .go{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0;transition:.3s}
-.cert:hover .go{background:var(--accent);border-color:var(--accent);color:#fff}
-.cert .go .i{width:16px;height:16px}
 .flechas{display:flex;gap:8px}
 .flechas button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--bg-2);color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.3s}
 .flechas button:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.08)}
@@ -193,8 +191,24 @@ section{padding:88px 0;background:var(--bg)}
 .stat b{font-family:Montserrat;font-size:24px}
 .stat small{display:block;color:var(--muted);font-size:12px}
 
+/* ESPECIALIDADES (dos líneas profesionales) */
+.especialidades{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.esp-card{background:var(--bg-2);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:var(--radius);padding:26px}
+.esp-card.ic{border-top-color:var(--accent-2)}
+.esp-card h3{font-size:17px;margin-bottom:6px}
+.esp-card .resumen{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+.esp-card ul{list-style:none;display:grid;gap:6px;font-size:13.5px;color:var(--muted)}
+.esp-card li::before{content:"— ";color:var(--accent)}
+.esp-card.ic li::before{color:var(--accent-2)}
+.esp-card .herr{margin-top:16px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+
+/* Etiquetas de línea (PM / IC) */
+.linea{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.8px;color:#fff;padding:2px 7px;border-radius:5px;background:var(--accent);margin-right:8px;vertical-align:2px}
+.linea.ic{background:var(--accent-2)}
+.leyenda{font-size:12.5px;color:var(--muted);margin-bottom:22px}
+
 /* PROYECTOS */
-.card{flex:0 0 320px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer}
+.card{flex:0 0 320px;scroll-snap-align:start;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .35s,border-color .35s,box-shadow .35s}
 .card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 24px 50px -24px rgba(30,139,255,.45)}
 .card .thumb{height:180px;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
@@ -249,7 +263,8 @@ section{padding:88px 0;background:var(--bg)}
 .job::before{content:"";position:absolute;left:-36px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg);animation:ringpulse 2.4s infinite}
 .job small{color:var(--accent);font-size:12px;font-weight:600}
 .job h3{font-size:16px;margin:4px 0}
-.job p{color:var(--muted);font-size:13.5px}
+.job .empresa{color:var(--text);font-size:13.5px;opacity:.85}
+.job p{color:var(--muted);font-size:13.5px;margin-top:4px}
 
 /* FORMACIÓN */
 /* [EDITAR] las listas se configuran en CONFIG.formacion y CONFIG.competencias */
@@ -258,6 +273,8 @@ section{padding:88px 0;background:var(--bg)}
 .box:hover{border-color:var(--accent);transform:translateY(-4px)}
 .box h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
 .box h3 .i{color:var(--accent)}
+.box h4{font-size:12.5px;margin:12px 0 4px;color:var(--accent)}
+.box h4.ic{color:var(--accent-2)}
 .box ul{list-style:none;color:var(--muted);font-size:13.5px}
 .box li{padding:4px 0}
 .box li::before{content:"— ";color:var(--accent)}
@@ -278,7 +295,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 @media (max-width:980px){
   .links{display:none}
   .hero-bottom{grid-template-columns:1fr;margin-top:40px}
-  .about,.grid2,.pillars,.mineria{grid-template-columns:1fr}
+  .about,.grid2,.pillars,.mineria,.especialidades{grid-template-columns:1fr}
   .card,.cert{flex-basis:80%}
 }
 @media (max-width:720px){
@@ -292,7 +309,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .reveal{animation:none}
+  .reveal{opacity:1;transform:none}
   .node,.pill,.btns,.exp{opacity:1}
   .tl .line{stroke-dashoffset:0}
 }
@@ -300,10 +317,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 </head>
 <body>
 
-<!-- =====================================================================
-     ICONOS (SVG). Para usar un icono nuevo: agrega un <symbol id="i-NOMBRE">
-     y úsalo en CONFIG escribiendo "NOMBRE" como icono.
-     ===================================================================== -->
+<!-- ICONOS (SVG). Para usar un icono nuevo: agrega un <symbol id="i-NOMBRE"> y úsalo en CONFIG escribiendo "NOMBRE" como icono. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
@@ -329,19 +343,17 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 <div class="progreso" id="progreso"></div>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 
-<!-- =====================================================================
-     HEADER: [EDITAR] para agregar o quitar secciones del menú,
-     agrega o quita un <li> aquí. El href debe coincidir con el id de la sección.
-     ===================================================================== -->
-<header>
+<!-- HEADER: [EDITAR] para agregar o quitar secciones del menú, agrega o quita un <li>. El href debe coincidir con el id de la sección. -->
+<header id="cabecera">
   <nav aria-label="Principal">
     <a class="brand" href="#inicio">
       <img src="img/logo.svg" alt="Logo de Álvaro Millán">
-      <span class="sep"></span>PORTAFOLIO PERSONAL
+      <span class="sep"></span>PORTAFOLIO
     </a>
     <ul class="links">
       <li><a href="#inicio" class="active"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg>Inicio</a></li>
       <li><a href="#perfil"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg>Perfil</a></li>
+      <li><a href="#especialidades"><svg class="i" aria-hidden="true"><use href="#i-gear"/></svg>Especialidades</a></li>
       <li><a href="#proyectos"><svg class="i" aria-hidden="true"><use href="#i-code"/></svg>Proyectos</a></li>
       <li><a href="#experiencia"><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg>Experiencia</a></li>
       <li><a href="#formacion"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg>Formación</a></li>
@@ -356,10 +368,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 
 <main id="contenido">
 
-<!-- =====================================================================
-     PORTADA
-     Los textos de esta sección se llenan desde CONFIG (abajo).
-     ===================================================================== -->
+<!-- PORTADA: textos llenados desde CONFIG -->
 <div class="hero" id="inicio">
   <div class="hero-bg"></div>
   <div class="glow g1"></div>
@@ -380,8 +389,9 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 
     <div class="hero-bottom">
       <div class="exp">
-        <h3><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg>Mi experiencia laboral</h3>
+        <h3><svg class="i" aria-hidden="true"><use href="#i-briefcase"/></svg>Experiencia laboral</h3>
         <div class="logos" id="logos"></div>
+        <p class="exp-texto" id="exp-resumen"></p>
       </div>
 
       <div class="tl" id="tl" aria-label="Recorrido académico">
@@ -394,19 +404,16 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   </div>
 </div>
 
-<!-- =====================================================================
-     CERTIFICACIONES
-     Las tarjetas se llenan desde CONFIG.certificaciones.
-     ===================================================================== -->
+<!-- CERTIFICACIONES: tarjetas desde CONFIG.certificaciones -->
 <section class="cursos" style="padding-bottom:40px">
   <div class="wrap">
     <div class="head-row">
       <div>
-        <h2><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>Mis cursos y especializaciones</h2>
-        <p class="sub">Formación continua para seguir creciendo</p>
+        <h2><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>Certificaciones</h2>
+        <p class="sub">Formación continua en datos, IA y gestión de proyectos</p>
       </div>
       <div class="acciones">
-        <a class="ghost" href="#formacion">Ver todas las certificaciones <svg class="i" aria-hidden="true"><use href="#i-right"/></svg></a>
+        <a class="ghost" href="#formacion">Ver todas <svg class="i" aria-hidden="true"><use href="#i-right"/></svg></a>
         <div class="flechas">
           <button id="c-prev" aria-label="Anterior"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button>
           <button id="c-next" aria-label="Siguiente"><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></button>
@@ -419,7 +426,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   </div>
 </section>
 
-<!-- PERFIL: los párrafos y estadísticas se llenan desde CONFIG -->
+<!-- PERFIL: párrafos y estadísticas desde CONFIG -->
 <section id="perfil">
   <div class="wrap about">
     <div>
@@ -430,7 +437,16 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   </div>
 </section>
 
-<!-- PROYECTOS: se llenan desde el arreglo PROYECTOS (abajo) -->
+<!-- ESPECIALIDADES: dos líneas profesionales desde CONFIG.especialidades -->
+<section id="especialidades" style="padding-top:20px">
+  <div class="wrap">
+    <h2 class="sec-title">Especialidades</h2>
+    <p class="sec-sub">Dos líneas profesionales complementarias.</p>
+    <div class="especialidades" id="esp-grid"></div>
+  </div>
+</section>
+
+<!-- PROYECTOS: desde el arreglo PROYECTOS (abajo) -->
 <section id="proyectos" style="padding-top:20px">
   <div class="wrap">
     <div class="head-row">
@@ -443,16 +459,17 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
         <button id="next" aria-label="Siguiente"><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></button>
       </div>
     </div>
+    <p class="leyenda"><span class="linea">PM</span>Planeamiento y control de proyectos &nbsp;&nbsp; <span class="linea ic">IC</span>Automatización, control e instrumentación</p>
     <div class="track proyectos-track" id="track"></div>
   </div>
 </section>
 
-<!-- PILARES: se llenan desde CONFIG.pilares -->
+<!-- PILARES: desde CONFIG.pilares -->
 <section id="pilares" style="padding-top:0">
   <div class="wrap pillars" id="pilares-grid"></div>
 </section>
 
-<!-- MINERÍA: se llena desde CONFIG.mineria -->
+<!-- MINERÍA: desde CONFIG.mineria -->
 <section id="mineria" style="padding-top:0">
   <div class="wrap mineria">
     <div>
@@ -465,7 +482,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   </div>
 </section>
 
-<!-- EXPERIENCIA: se llena desde CONFIG.experiencia -->
+<!-- EXPERIENCIA: desde CONFIG.experiencia -->
 <section id="experiencia">
   <div class="wrap">
     <h2 class="sec-title">Experiencia</h2>
@@ -474,7 +491,7 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   </div>
 </section>
 
-<!-- FORMACIÓN Y COMPETENCIAS: se llenan desde CONFIG -->
+<!-- FORMACIÓN Y COMPETENCIAS: desde CONFIG -->
 <section id="formacion">
   <div class="wrap grid2">
     <div class="box">
@@ -483,18 +500,21 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
     </div>
     <div class="box">
       <h3><svg class="i" aria-hidden="true"><use href="#i-chip"/></svg>Competencias técnicas</h3>
-      <ul id="competencias-lista"></ul>
+      <h4>Planeamiento y gestión de proyectos</h4>
+      <ul id="comp-pm"></ul>
+      <h4 class="ic">Automatización, control e instrumentación</h4>
+      <ul id="comp-ic"></ul>
     </div>
   </div>
 </section>
 
-<!-- CONTACTO: correo y GitHub se llenan desde CONFIG -->
+<!-- CONTACTO: desde CONFIG.contacto -->
 <section id="contacto" class="contact">
   <div class="wrap">
     <h2 class="sec-title">Hablemos</h2>
     <p id="contacto-texto"></p>
     <div class="btns">
-      <a class="btn primary" id="contacto-correo" href="#"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg></a>
+      <a class="btn primary" id="contacto-correo" href="#"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>Escribir</a>
       <a class="btn" id="contacto-github" href="#" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -516,226 +536,244 @@ footer{padding:30px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 /* =====================================================================
    ========================  CONFIGURACIÓN  ============================
    TODO LO QUE PUEDES EDITAR ESTÁ AQUÍ, EN ESTE BLOQUE.
-   Reglas generales:
-   - Los textos van entre comillas dobles "así".
-   - Cada elemento de una lista va entre llaves { } y separado por coma.
-   - Si borras un elemento de una lista, borra también su coma.
-   - Las rutas de imágenes son relativas a la carpeta img/.
+   Reglas: los textos van entre comillas dobles. Cada elemento de una lista
+   va entre llaves { } y separado por coma. Las rutas de imágenes son relativas a img/.
    ===================================================================== */
 const CONFIG = {
 
   /* ---------- 1. DATOS PERSONALES (portada) ---------- */
-  eyebrow: "Project Manager · Minería",          // texto pequeño arriba del nombre
+  eyebrow: "Ingeniero Mecatrónico · Planeamiento y Automatización",
   nombre: {
-    linea1: "Álvaro",                            // primera línea grande
-    linea2: "Millán Orellana"                    // segunda línea más fina
+    linea1: "Álvaro",
+    linea2: "Millán Orellana"
   },
   tagline: {
-    linea1: "Ingeniería, software e inteligencia",
-    linea2: "para construir soluciones que",
-    resaltado: "transforman"                     // palabra en azul con brillo (se añade un punto al final)
+    linea1: "Planifico, controlo y automatizo",
+    linea2: "para que los proyectos industriales cumplan",
+    resaltado: "plazo y costo"
   },
 
   /* ---------- 2. ETIQUETAS DE LA PORTADA (pills) ----------
-     icono: uno de estos nombres: chip, gear, chart, bulb, star, code, user, mail, cap, briefcase, globe, lang, trophy
-  */
+     icono: chip, gear, chart, bulb, star, code, user, mail, cap, briefcase, globe, lang, trophy */
   pills: [
-    { icono: "chip",  texto: "IA / Machine Learning" },
-    { icono: "gear",  texto: "Gestión de Proyectos" },
-    { icono: "chart", texto: "Minería" },
-    { icono: "bulb",  texto: "Innovación" }
+    { icono: "gear",  texto: "Planeamiento y control" },
+    { icono: "chart", texto: "Gestión documental" },
+    { icono: "chip",  texto: "Automatización industrial" },
+    { icono: "bulb",  texto: "Datos e IA" }
   ],
 
-  /* ---------- 3. EXPERIENCIA LABORAL (logos del panel blanco) ----------
-     src: ruta de la imagen en img/   alt: texto alternativo (nombre de la empresa)
-     Para agregar uno, copia una línea { src: "...", alt: "..." }
-  */
+  /* ---------- 3. EXPERIENCIA (logos del panel blanco) ----------
+     Solo empresas con logo en img/. Para agregar uno, copia una línea { src, alt }. */
   logosExperiencia: [
-    { src: "img/logo-bcp.webp",        alt: "BCP" },
-    { src: "img/logo-uguil.webp",      alt: "UGUIL" },
-    { src: "img/logo-cec.webp",        alt: "Construcción" },
-    { src: "img/logo-sanmartin.webp",  alt: "San Martín CG" },
-    { src: "img/logo-grupomexico.webp",alt: "Grupo México Minería" }
+    { src: "img/logo-bcp.webp",   alt: "BCP" },
+    { src: "img/logo-uguil.webp", alt: "UGUIL" }
   ],
+  expResumen: "Dirección de información técnica, planeamiento y automatización en minería, construcción y educación.",
 
   /* ---------- 4. RECORRIDO ACADÉMICO (línea de tiempo sobre la foto) ----------
-     x: posición horizontal en %  (0 = izquierda, 100 = derecha)
-     y: altura en píxeles         (0 = arriba, 290 = abajo). Los nodos deben ir de abajo a arriba, de izquierda a derecha.
-     icono: cap, globe, lang, gear, trophy, book, award, uni, star
-     titulo / sub: primera y segunda línea del texto (sub puede ir vacío "")
-  */
+     x: posición horizontal en % (0 izquierda, 100 derecha)
+     y: altura en píxeles (0 arriba, 290 abajo). Los nodos van de abajo a arriba, de izquierda a derecha. */
   recorrido: [
-    { x: 10, y: 200, icono: "cap",    titulo: "Colegio",               sub: "" },
-    { x: 30, y: 158, icono: "globe",  titulo: "Bachillerato",          sub: "Internacional" },
-    { x: 49, y: 116, icono: "lang",   titulo: "Inglés Avanzado",       sub: "Británico" },
-    { x: 68, y: 70,  icono: "gear",   titulo: "Ing. Mecatrónica",      sub: "UTEC" },
-    { x: 88, y: 8,   icono: "trophy", titulo: "Magíster en",           sub: "Docencia Universitaria" }
+    { x: 12, y: 170, icono: "gear",   titulo: "Ing. Mecatrónica",   sub: "UTEC · Bachiller" },
+    { x: 36, y: 120, icono: "lang",   titulo: "Inglés avanzado",    sub: "ICPB · B2" },
+    { x: 60, y: 70,  icono: "chart",  titulo: "Analítica de datos", sub: "BCP · DataCamp" },
+    { x: 84, y: 16,  icono: "trophy", titulo: "Maestría en",        sub: "Docencia Universitaria (UCV)" }
   ],
 
   /* ---------- 5. CERTIFICACIONES (carrusel) ----------
-     img: imagen de portada en img/  |  tipo: "Curso" o "Especialización"
-  */
+     img: imagen de portada en img/ (si la dejas en "", se muestra un bloque de color)
+     tipo: "Curso" o "Especialización". Todas las datos vienen del CV. */
   certificaciones: [
-    { img: "img/cert-ia.webp",      titulo: "Inteligencia Artificial y ML", plataforma: "Coursera",  anio: 2025, tipo: "Curso" },
-    { img: "img/cert-python.webp",  titulo: "Python para Ciencia de Datos", plataforma: "Platzi",    anio: 2025, tipo: "Curso" },
-    { img: "img/cert-powerbi.webp", titulo: "Data Analytics con Power BI",  plataforma: "Microsoft", anio: 2025, tipo: "Especialización" },
-    { img: "img/cert-aws.webp",     titulo: "Cloud Computing (AWS)",        plataforma: "AWS",       anio: 2024, tipo: "Curso" }
+    { img: "", titulo: "Data Engineer",                       plataforma: "DataCamp",            anio: 2026, tipo: "Especialización", linea: "ic" },
+    { img: "", titulo: "Data Scientist",                      plataforma: "DataCamp",            anio: 2026, tipo: "Especialización", linea: "ic" },
+    { img: "", titulo: "Data Analyst",                        plataforma: "DataCamp",            anio: 2026, tipo: "Especialización", linea: "ic" },
+    { img: "", titulo: "Agentes Autónomos de IA",             plataforma: "Google AI",           anio: 2026, tipo: "Curso",           linea: "ic" },
+    { img: "", titulo: "Supply Chain Analytics Engineer",     plataforma: "INLOG",               anio: 2025, tipo: "Curso",           linea: "pm" },
+    { img: "", titulo: "Primavera P6 aplicado a Construcción y Minería", plataforma: "Certificación", anio: 2023, tipo: "Curso",   linea: "pm" },
+    { img: "", titulo: "Analítica Descriptiva con Python",    plataforma: "BCP",                 anio: 2023, tipo: "Curso",           linea: "ic" }
   ],
 
-  /* ---------- 6. SECCIÓN PERFIL ----------
-     perfil: cada texto entre comillas es un párrafo.
-  */
+  /* ---------- 6. PERFIL ----------
+     Cada texto entre comillas es un párrafo. */
   perfil: [
-    "Bachiller en Ingeniería Mecatrónica por UTEC, con experiencia en dirección de proyectos multidisciplinarios, analítica de datos y automatización de procesos en los sectores educativo, financiero, industrial y minero.",
-    "Mi enfoque es entender el proceso antes de construir la solución: planificar el alcance, controlar cronograma y costos, gestionar riesgos y convertir la información en decisiones.",
-    "Domino Python, SQL, Power BI y Microsoft 365. Aplico IA (visión computacional y modelos de lenguaje) a problemas operativos reales."
+    "Bachiller en Ingeniería Mecatrónica por UTEC. Trabajo en la capa que sostiene un proyecto: el cronograma que se cumple, la documentación que respalda cada decisión y los sistemas que la operan.",
+    "Mi enfoque es entender el proceso antes de construir la solución: planificar el alcance, controlar avance y costos, gestionar la información técnica y convertir los datos en decisiones.",
+    "Manejo Primavera P6, MS Project, Python, SQL y Power BI, y diseño sistemas de control con PLC Siemens y Allen-Bradley."
   ],
 
-  /* ---------- 7. ESTADÍSTICAS (tarjetas a la derecha del perfil) ----------
-     Si quieres un número que se anime: usa numero y sufijo.
-     Si quieres texto fijo: usa valor.
-  */
+  /* ---------- 7. ESTADÍSTICAS ----------
+     numero + sufijo: se anima el número. valor: texto fijo. */
   estadisticas: [
-    { valor: "Inglés B2", nota: "CEFR · British Council 2026" },
-    { numero: 4000, sufijo: "+", nota: "Evidencias evaluadas por semana con IA (UGEL Jauja)" },
+    { valor: "B2", nota: "Inglés · CEFR, British Council 2026" },
+    { numero: 4000, sufijo: "+", nota: "Exámenes procesados por semana con OCR e IA (UGEL Jauja)" },
     { numero: 3, nota: "proyectos mineros y de construcción con control documentario" }
   ],
 
-  /* ---------- 8. PILARES (tres bloques debajo de proyectos) ---------- */
+  /* ---------- 8. ESPECIALIDADES (dos bloques) ---------- */
+  especialidades: [
+    {
+      linea: "pm",
+      titulo: "Planeamiento y control de proyectos",
+      resumen: "Planificación, seguimiento y control de cronograma, costos y documentación en proyectos de construcción y minería.",
+      items: [
+        "Planeamiento y control de cronograma y costos",
+        "Análisis de impacto costo-plazo",
+        "Control documentario: revisiones, transmittals y trazabilidad",
+        "Reportes y dashboards para la gerencia del proyecto",
+        "Cierre de proyectos y entrega de documentación"
+      ],
+      herramientas: "Primavera P6 · MS Project · SharePoint · Microsoft 365 · Power BI · Excel avanzado"
+    },
+    {
+      linea: "ic",
+      titulo: "Automatización, control e instrumentación",
+      resumen: "Diseño e integración de sistemas automatizados, desde el diseño eléctrico hasta la lógica de control y el análisis de datos.",
+      items: [
+        "Programación de PLC: Siemens S7-1200 y Allen-Bradley",
+        "Diseño eléctrico y de control (EPLAN)",
+        "Modelado CAD 3D y prototipado",
+        "Integración y validación de componentes electrónicos",
+        "Automatización de procesos con Python y OCR"
+      ],
+      herramientas: "TIA Portal · Allen-Bradley · EPLAN · SolidWorks · Python · SQL · PyTorch"
+    }
+  ],
+
+  /* ---------- 9. PILARES ---------- */
   pilares: [
     { titulo: "Entender antes de construir", texto: "Mapeo el proceso, los actores y los riesgos antes de proponer una solución." },
     { titulo: "Medir para decidir",          texto: "Cronograma, costos y avance en indicadores claros que la gerencia lee en minutos." },
     { titulo: "Automatizar lo repetitivo",   texto: "Python, SQL y Microsoft 365 para reducir errores manuales y ganar trazabilidad." }
   ],
 
-  /* ---------- 9. SECCIÓN MINERÍA ---------- */
+  /* ---------- 10. SECCIÓN MINERÍA ---------- */
   mineria: {
     etiqueta: "Minería y construcción",
-    titulo: "Del tajo a la oficina técnica",
-    texto: "Trabajo en la capa que sostiene un proyecto minero: el cronograma que se cumple, la documentación que respalda cada decisión y los cambios de contrato que afectan costo y plazo.",
+    titulo: "Del campo a la oficina técnica",
+    texto: "Trabajo en la capa que conecta el campo con la oficina: planos, especificaciones y registros de calidad ordenados, procesos controlados y sistemas que dan trazabilidad.",
     lista: [
+      "Control documentario: planos, protocolos e informes con versiones y trazabilidad",
       "Planeamiento y control de cronograma y costos",
-      "Control documentario: transmittals, revisiones y trazabilidad",
-      "Administración de contratos: control de cambios (IO y OC)",
-      "Análisis de impacto costo-plazo y solicitudes formales (RFI)",
-      "Coordinación de interferencias en campo",
-      "Cierre de proyectos y entrega de documentación"
+      "Digitalización de documentación técnica con OCR y automatización",
+      "Sistemas de control y automatización para procesos industriales",
+      "Reportes y tableros de seguimiento para la gerencia"
     ],
     imagen: "img/mineria-tajo.svg",
     alt: "Ilustración de un tajo minero con camión de acarreo"
   },
 
-  /* ---------- 10. EXPERIENCIA (lista de puestos) ----------
-     periodo: fechas   titulo: cargo   empresa: organización   descripcion: texto corto
-  */
+  /* ---------- 11. EXPERIENCIA ----------
+     periodo, titulo, empresa, descripcion, linea: "pm" | "ic" | "ambas" */
   experiencia: [
-    { periodo: "Abr 2024 – Actualidad", titulo: "Administrador de plataforma educativa", empresa: "UGEL Jauja",
-      descripcion: "Colaborador externo. Implementación de la estrategia educativa, base de datos PostgreSQL y sistema de evaluación con IA." },
-    { periodo: "Ene 2025 – Abr 2026", titulo: "Desarrollador de sistemas digitales", empresa: "DALIMSA S.A.C.",
-      descripcion: "Intranet corporativa, backend en Python y PostgreSQL, identificación con códigos QR y bot de WhatsApp." },
-    { periodo: "Nov 2023 – Ene 2024", titulo: "Asistente de control de calidad en obra", empresa: "UGUIL S.A.",
-      descripcion: "Proyecto de defensas ribereñas. Control documentario y digitalización de protocolos con OCR en Python." },
-    { periodo: "Ene – Mar 2023", titulo: "Practicante de Data Analytics", empresa: "Banco de Crédito del Perú",
-      descripcion: "Analítica con Python, modelos de detección de anomalías con Scikit-learn y dashboards en Power BI." }
+    { periodo: "Ene 2025 – Abr 2026", titulo: "Software & Data Engineer", empresa: "DALIMSA S.A.C.", linea: "ic",
+      descripcion: "Intranet corporativa para más de 1,000 clientes. Backend en Python y PostgreSQL, API REST con FastAPI, control de acceso por huella digital y bot de WhatsApp." },
+    { periodo: "Abr 2024 – Abr 2026", titulo: "Data & AI Engineer · EducaMath", empresa: "UGEL Jauja", linea: "ambas",
+      descripcion: "Implementación de la estrategia educativa regional. Base de datos y pipeline ETL en PostgreSQL. Evaluación automática de exámenes escaneados con OCR y Deep Learning (PyTorch), más de 4,000 exámenes por semana de unas 150 instituciones." },
+    { periodo: "Nov 2023 – Ene 2024", titulo: "Document Controller", empresa: "UGUIL S.A.", linea: "ambas",
+      descripcion: "Proyecto de defensas ribereñas. Control de versiones, distribución y trazabilidad de planos, protocolos e informes con SharePoint y Excel VBA. Digitalización con OCR y Power Automate." },
+    { periodo: "Ene – Mar 2023", titulo: "Data Analytics · Auditoría Interna", empresa: "Banco de Crédito del Perú", linea: "ic",
+      descripcion: "Migración de scripts de R a Python, optimización de consultas a SQL Server, detección de anomalías con Scikit-learn y dashboards en Power BI." },
+    { periodo: "Abr – Dic 2022", titulo: "Practicante Pre-Profesional · Automatización", empresa: "Ceobotic S.A.C.", linea: "ic",
+      descripcion: "Prototipo de dispensador automático de cajas con PLC Siemens S7-1200, modelado CAD en SolidWorks y validación de componentes electrónicos." }
   ],
 
-  /* ---------- 11. FORMACIÓN Y COMPETENCIAS (listas simples) ---------- */
+  /* ---------- 12. FORMACIÓN Y COMPETENCIAS ---------- */
   formacion: [
     "Maestría en Docencia Universitaria (en curso) · UCV",
     "Bachiller en Ingeniería Mecatrónica · UTEC",
-    "Programa de Inglés Avanzado · ICPB",
-    "Certificación en Analítica Descriptiva con Python · BCP",
-    "Transformación Digital · Tecnológico de Monterrey",
-    "Agile Innovation and Problem Solving · University System of Maryland"
+    "Programa de Inglés avanzado · Instituto Cultural Peruano Británico",
+    "Transformación Digital e Innovación · Tecnológico de Monterrey",
+    "Agile Innovation and Problem-Solving Skills · University System of Maryland",
+    "Inteligencia Emocional y Liderazgo · Red de Universidades Anáhuac"
   ],
-  competencias: [
-    "Dirección de proyectos: Primavera P6, MS Project",
+  competenciasPM: [
+    "Primavera P6, MS Project",
     "Planeamiento y control de cronograma y costos",
-    "Python, SQL, Power BI, VBA",
-    "IA aplicada: OCR, visión computacional, Scikit-learn, TensorFlow",
-    "Microsoft 365: SharePoint, Power Apps, Power Automate",
-    "Automatización industrial: PLC Siemens, Allen-Bradley"
+    "Gestión documental: versiones, trazabilidad y transmittals",
+    "SharePoint, Power Automate, Microsoft 365",
+    "Excel avanzado y VBA, Power BI"
+  ],
+  competenciasIC: [
+    "PLC Siemens S7-1200 (TIA Portal) y Allen-Bradley",
+    "Diseño eléctrico (EPLAN) y CAD 3D (SolidWorks, Fusion 360, Inventor)",
+    "Python, SQL y pipelines ETL",
+    "OCR, Deep Learning (PyTorch) y Scikit-learn",
+    "Agentes y LLMs: LangGraph, LlamaIndex, Hugging Face"
   ],
 
-  /* ---------- 12. CONTACTO ---------- */
+  /* ---------- 13. CONTACTO ---------- */
   contacto: {
-    texto: "Si buscas un profesional para dirección de proyectos de minería, planeamiento o soluciones con IA y automatización, escríbeme.",
+    texto: "Si buscas un profesional para planeamiento, control de proyectos o automatización industrial en minería y construcción, escríbeme.",
     correo: "alvaro.millan.369@gmail.com",
     github: "https://github.com/alvaromo-dev"
   }
 };
 
 /* =====================================================================
-   ===================  PROYECTOS  ======================================
-   Para agregar un proyecto: copia un bloque { ... } completo, pégalo
-   al final de la lista (antes del ] ) y edítalo.
-   - img: imagen de portada (en img/)
-   - metricas: pares [valor, etiqueta] que aparecen en el detalle
-   - gallery: fotos adicionales (rutas en img/); [] si no hay
-   - video: ID de YouTube (lo que va después de ?v=), o "" si no hay
+   PROYECTOS
+   Para agregar un proyecto: copia un bloque { ... }, pégalo antes del ] y edítalo.
+   linea: "pm" (planeamiento) o "ic" (automatización)
+   metricas: pares [valor, etiqueta]. gallery: fotos en img/ ([] si no hay). video: ID de YouTube o "".
    ===================================================================== */
 const PROYECTOS = [
   {
-    titulo: "Evaluador matemático con IA",
-    categoria: "Inteligencia Artificial · Educación",
-    resumen: "Evaluación semi-automatizada de evidencias manuscritas de resolución de problemas.",
-    detalle: "Desarrollé un sistema que califica fotografías de resolución manual de problemas matemáticos usando visión computacional (MobileNet). Gestiono la base de datos en PostgreSQL y el proceso de implementación en la UGEL Jauja.",
-    metricas: [["4,000+", "evidencias semanales"], ["150+", "instituciones"], ["2,000", "estudiantes"]],
-    tags: ["Python", "MobileNet", "PostgreSQL", "Visión computacional"],
+    titulo: "Evaluador de exámenes con IA",
+    categoria: "Automatización · Educación",
+    linea: "ic",
+    resumen: "Evaluación automática de exámenes manuscritos escaneados mediante OCR y Deep Learning.",
+    detalle: "Sistema que procesa y califica exámenes escaneados con OCR y modelos de Deep Learning en PyTorch. La información se almacena y transforma en PostgreSQL mediante un pipeline ETL, con control de calidad de datos para la UGEL Jauja.",
+    metricas: [["4,000+", "exámenes por semana"], ["150", "instituciones"]],
+    tags: ["Python", "PyTorch", "OCR", "PostgreSQL", "ETL"],
     img: "img/proyecto-ugel.svg", gallery: [], video: ""
   },
   {
     titulo: "Control documentario y trazabilidad",
-    categoria: "Minería · Tecnología",
-    resumen: "Herramientas para registrar, seguir y trazar documentos técnicos de proyectos de construcción y minería.",
-    detalle: "Automatización con Python para extracción y validación de transmittals, actualización de registros de control y tableros de seguimiento, integrados a la administración de contratos.",
-    metricas: [["3", "proyectos mineros"], ["Automático", "registro de TRM"]],
-    tags: ["Python", "Excel", "Trazabilidad", "Dashboards"],
+    categoria: "Gestión de proyectos · Minería",
+    linea: "pm",
+    resumen: "Registro, control de versiones y trazabilidad de documentación técnica de proyectos de construcción y minería.",
+    detalle: "Organización del registro de planos, protocolos e informes con control de revisiones y distribución en SharePoint. Automatización con Python para extraer y validar transmittals y actualizar los registros de control.",
+    metricas: [["3", "proyectos mineros y de construcción"]],
+    tags: ["SharePoint", "Excel VBA", "Python", "Trazabilidad"],
     img: "img/proyecto-documentos.svg", gallery: [], video: ""
   },
   {
     titulo: "Seguimiento de cierre de proyecto en M365",
-    categoria: "Dirección de proyectos",
+    categoria: "Gestión de proyectos",
+    linea: "pm",
     resumen: "Sistema de seguimiento de cierre de proyecto con SharePoint, Power Apps y Power Automate.",
-    detalle: "Diseñé un checklist de cierre digital con control de responsables, estados y evidencias, con flujos automáticos de notificación y reportes para la gerencia del proyecto.",
-    metricas: [["1", "sistema M365 integrado"]],
-    tags: ["SharePoint", "Power Apps", "Power Automate", "Gestión"],
+    detalle: "Checklist de cierre digital con responsables, estados y evidencias, flujos automáticos de notificación y reportes de avance para la gerencia del proyecto.",
+    metricas: [["1", "sistema integrado en M365"]],
+    tags: ["SharePoint", "Power Apps", "Power Automate", "Cierre de proyectos"],
     img: "img/hero-mineria.svg", gallery: [], video: ""
   },
   {
-    titulo: "Planeamiento: impacto costo-plazo",
-    categoria: "Planeamiento · Minería",
-    resumen: "Cuantificación de eventos de contrato sobre costo y cronograma en obra minera.",
-    detalle: "Análisis de impacto técnico-financiero de eventos de campo, con sustento para solicitudes formales (RFI) y propuesta de mitigación de costo y plazo.",
-    metricas: [["Costo", "impacto cuantificado"], ["Plazo", "impacto cuantificado"]],
-    tags: ["Planeamiento", "Costos", "Riesgos", "Contratos"],
-    img: "img/hero-mineria.svg", gallery: [], video: ""
-  },
-  {
-    titulo: "Aplicación fitness IFIT",
-    categoria: "Desarrollo móvil",
-    resumen: "Aplicación Android para seguimiento de entrenamientos y hábitos.",
-    detalle: "App móvil enfocada en una interfaz simple para el registro diario de entrenamientos y progreso.",
-    metricas: [["Android", "plataforma"]],
-    tags: ["Android", "Diseño de app"],
+    titulo: "Dispensador automático con PLC",
+    categoria: "Automatización industrial",
+    linea: "ic",
+    resumen: "Prototipo de dispensador de cajas para capacitación logística, controlado con PLC Siemens S7-1200.",
+    detalle: "Diseño e implementación del sistema de control, modelado CAD de componentes y ensamblajes en SolidWorks con fabricación por impresión 3D, y validación de los componentes electrónicos.",
+    metricas: [["S7-1200", "controlador PLC"]],
+    tags: ["Siemens S7-1200", "TIA Portal", "SolidWorks", "Impresión 3D"],
     img: "img/proyecto-ifit.svg", gallery: [], video: ""
   },
   {
-    titulo: "Intranet y gestión digital",
+    titulo: "Intranet y automatización corporativa",
     categoria: "Software · Automatización",
-    resumen: "Intranet corporativa con códigos QR y bot de WhatsApp para atención a clientes.",
-    detalle: "Backend en Python y PostgreSQL para inventario, usuarios y membresías, con identificación digital por QR y canal de comunicación automatizado por WhatsApp.",
-    metricas: [["500", "clientes activos"]],
-    tags: ["Python", "PostgreSQL", "QR", "WhatsApp"],
+    linea: "ic",
+    resumen: "Intranet para más de 1,000 clientes, con control de acceso por huella digital y bot de WhatsApp.",
+    detalle: "Backend en Python y PostgreSQL, API REST con FastAPI para usuarios, productos y membresías, control de acceso biométrico y un bot de WhatsApp para atención automatizada.",
+    metricas: [["1,000+", "clientes gestionados"]],
+    tags: ["Python", "FastAPI", "PostgreSQL", "Huella digital", "WhatsApp"],
     img: "img/hero-mineria.svg", gallery: [], video: ""
   }
 ];
 
 /* =====================================================================
-   ==================  LÓGICA (no necesitas editar esto)  ===============
+   LÓGICA (no necesitas editar esto)
    ===================================================================== */
 const $ = id => document.getElementById(id);
 const icono = (nombre, clase = "i") => `<svg class="${clase}" aria-hidden="true"><use href="#i-${nombre}"/></svg>`;
+const etiquetaLinea = l => l === "pm" ? `<span class="linea">PM</span>` : l === "ic" ? `<span class="linea ic">IC</span>` : "";
 
 /* ---------- Tema claro / oscuro ---------- */
 const raiz = document.documentElement;
@@ -752,14 +790,13 @@ $("eyebrow").textContent = CONFIG.eyebrow;
 $("nombre1").textContent = CONFIG.nombre.linea1;
 $("nombre2").textContent = CONFIG.nombre.linea2;
 $("tagline").innerHTML = `${CONFIG.tagline.linea1}<br>${CONFIG.tagline.linea2} <b>${CONFIG.tagline.resaltado}</b>.`;
-
 $("pills").innerHTML = CONFIG.pills.map((p, i) =>
   `<span class="pill" style="animation-delay:${1.05 + i * 0.1}s">${icono(p.icono)}${p.texto}</span>`
 ).join("");
-
 $("logos").innerHTML = CONFIG.logosExperiencia.map((l, i) =>
   (i ? `<span class="sep"></span>` : "") + `<img src="${l.src}" alt="${l.alt}" loading="lazy">`
 ).join("");
+$("exp-resumen").textContent = CONFIG.expResumen;
 
 /* ---------- Línea de tiempo académica ---------- */
 const tl = $("tl");
@@ -774,7 +811,6 @@ CONFIG.recorrido.forEach((n, i) => {
   tl.appendChild(nodo);
   puntos.push([n.x * 10, n.y + 29]); // centro del icono; el viewBox es 1000 de ancho
 });
-// Curva suave que pasa por el centro de cada nodo
 function trazoSuave(pts) {
   let d = `M${pts[0][0]},${pts[0][1]}`;
   for (let i = 1; i < pts.length - 1; i++) {
@@ -789,11 +825,10 @@ $("tl-line").setAttribute("d", trazoSuave(puntos));
 /* ---------- Certificaciones ---------- */
 $("cursos-track").innerHTML = CONFIG.certificaciones.map(c => `
   <article class="cert reveal">
-    <img src="${c.img}" alt="${c.titulo}" loading="lazy">
+    ${c.img ? `<img src="${c.img}" alt="${c.titulo}" loading="lazy">` : `<div class="cert-ph">${icono("star")}</div>`}
     <span class="${c.tipo === "Especialización" ? "badge esp" : "badge"}">${c.tipo}</span>
     <div class="info">
-      <div><h4>${c.titulo}</h4><small>${c.plataforma} · ${c.anio}</small></div>
-      <span class="go">${icono("right")}</span>
+      <div>${etiquetaLinea(c.linea)}<h4>${c.titulo}</h4><small>${c.plataforma} · ${c.anio}</small></div>
     </div>
   </article>`).join("");
 
@@ -806,6 +841,15 @@ $("stats").innerHTML = CONFIG.estadisticas.map(s => {
   return `<div class="stat reveal">${valor}<small>${s.nota}</small></div>`;
 }).join("");
 
+/* ---------- Especialidades ---------- */
+$("esp-grid").innerHTML = CONFIG.especialidades.map(e => `
+  <article class="esp-card reveal ${e.linea}">
+    <h3>${etiquetaLinea(e.linea)}${e.titulo}</h3>
+    <p class="resumen">${e.resumen}</p>
+    <ul>${e.items.map(t => `<li>${t}</li>`).join("")}</ul>
+    <p class="herr"><strong>Herramientas:</strong> ${e.herramientas}</p>
+  </article>`).join("");
+
 /* ---------- Proyectos ---------- */
 const track = $("track");
 PROYECTOS.forEach((p, i) => {
@@ -816,7 +860,7 @@ PROYECTOS.forEach((p, i) => {
   card.innerHTML = `
     <div class="thumb"><img src="${p.img}" alt="${p.titulo}" loading="lazy"></div>
     <div class="body">
-      <span class="tag">${p.categoria}</span>
+      ${etiquetaLinea(p.linea)}<span class="tag">${p.categoria}</span>
       <h3>${p.titulo}</h3>
       <p>${p.resumen}</p>
       <div class="more">Ver detalle →</div>
@@ -849,7 +893,7 @@ function abrir(i, origen) {
   const video = p.video
     ? `<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${p.video}" allowfullscreen title="${p.titulo}"></iframe></div>` : "";
   cuerpo.innerHTML = `
-    <span class="tag">${p.categoria}</span>
+    ${etiquetaLinea(p.linea)}<span class="tag">${p.categoria}</span>
     <h2 id="modal-titulo">${p.titulo}</h2>
     <p>${p.detalle}</p>
     <div class="metrics">${metricas}</div>
@@ -876,4 +920,69 @@ $("pilares-grid").innerHTML = CONFIG.pilares.map(p =>
 $("mineria-etiqueta").textContent = CONFIG.mineria.etiqueta;
 $("mineria-titulo").textContent = CONFIG.mineria.titulo;
 $("mineria-texto").textContent = CONFIG.mineria.texto;
-$("mineria-lista").innerHTML = CONFIG.mineria.lista.map(t => `<li
+$("mineria-lista").innerHTML = CONFIG.mineria.lista.map(t => `<li>${t}</li>`).join("");
+$("mineria-img").src = CONFIG.mineria.imagen;
+$("mineria-img").alt = CONFIG.mineria.alt;
+
+/* ---------- Experiencia ---------- */
+$("exp-list").innerHTML = CONFIG.experiencia.map(e => `
+  <div class="job reveal">
+    <small>${e.periodo}</small>
+    <h3>${etiquetaLinea(e.linea === "ambas" ? "pm" : e.linea)}${e.linea === "ambas" ? `<span class="linea ic">IC</span>` : ""}${e.titulo}</h3>
+    <div class="empresa">${e.empresa}</div>
+    <p>${e.descripcion}</p>
+  </div>`).join("");
+
+/* ---------- Formación y competencias ---------- */
+$("formacion-lista").innerHTML = CONFIG.formacion.map(f => `<li>${f}</li>`).join("");
+$("comp-pm").innerHTML = CONFIG.competenciasPM.map(c => `<li>${c}</li>`).join("");
+$("comp-ic").innerHTML = CONFIG.competenciasIC.map(c => `<li>${c}</li>`).join("");
+
+/* ---------- Contacto y pie ---------- */
+$("contacto-texto").textContent = CONFIG.contacto.texto;
+$("contacto-correo").href = "mailto:" + CONFIG.contacto.correo;
+$("contacto-github").href = CONFIG.contacto.github;
+$("anio").textContent = new Date().getFullYear();
+
+/* ---------- Efectos al hacer scroll ---------- */
+const barra = $("progreso");
+const cabecera = $("cabecera");
+const enlaces = [...document.querySelectorAll(".links a")];
+const secciones = enlaces.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+function alDesplazar() {
+  const total = document.documentElement.scrollHeight - innerHeight;
+  barra.style.transform = `scaleX(${total > 0 ? scrollY / total : 0})`;
+  cabecera.classList.toggle("compacta", scrollY > 60);
+  let actual = secciones[0];
+  secciones.forEach(s => { if (s.getBoundingClientRect().top < 160) actual = s; });
+  enlaces.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + actual.id));
+}
+addEventListener("scroll", alDesplazar, { passive: true });
+alDesplazar();
+
+/* Revelar elementos al entrar en pantalla */
+const observador = new IntersectionObserver(entradas => {
+  entradas.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); observador.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach(el => observador.observe(el));
+
+/* Contadores animados */
+const contadores = document.querySelectorAll(".contador");
+const obsContador = new IntersectionObserver(entradas => {
+  entradas.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, meta = +el.dataset.n, suf = el.dataset.s;
+    const t0 = performance.now(), dur = 1400;
+    const paso = t => {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = Math.round(meta * p).toLocaleString("es-PE") + suf;
+      if (p < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+    obsContador.unobserve(el);
+  });
+}, { threshold: 0.5 });
+contadores.forEach(el => obsContador.observe(el));
+</script>
+</body>
+</html>
